@@ -1,6 +1,6 @@
 import './scss/app.scss';
 import Module from './Module.js';
-import Data from './lib/Data.js';
+import Data from './lib/Data/index.js';
 
 export default class extends Module {
     constructor(args) {
@@ -20,4 +20,5 @@ export default class extends Module {
 
         });
     }
+
 }

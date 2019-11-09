@@ -1,30 +1,24 @@
-import Module from '../Module.js';
+import Module from '../../Module.js';
 
 export default class extends Module {
     constructor(args) {
         super();
-
         return new Promise((resolve, reject) => {
-            this.label = 'DATASOURCE';
-
+            this.label = 'CATEGORIES';
+            console.log(this.label, '>>> INIT');
             this.app = args;
-            this.categoriesUrl = this.app.options.categoriesUrl;
-            this.categories = [];
-            this.categories.simsalabim = function() {
-                this.map(i => console.log(i));
-            };
+            this.url = args.options.categoriesUrl;
 
             this.on('ready', () => {
-                console.log(this.label, '>>>', 'GOT ALL QUESTIONS', this.categories);
+                console.log(this.label, '>>>', 'GOT ALL CATEGORIES AND QUESTIONS', this.categories);
                 resolve(this);
             });
 
-            this.on('get-categories', () => {
+            this.on('get', () => {
                 console.log(this.label, '>>>', 'GET CATEGORIES');
             });
-            this.on('got-categories', () => {
-                console.log(this.label, '>>>', 'GOT CATEGORIES', this.categories.map(i => i.category));
-                this.categories.simsalabim();
+            this.on('got', () => {
+                console.log(this.label, '>>>', 'GOT CATEGORIES', this.items.map(i => i.category));
             });
 
             this.on('get-questions', category => {
@@ -34,17 +28,17 @@ export default class extends Module {
                 console.log(this.label, '>>>', 'GOT', questions.length, 'QUESTIONS FOR CATEGORY:', category, 'WITH', questions);
             });
 
-            this.getCategories().then(() => {
-                return this.getAllData();
+            this.get().then(() => {
+                return this.getAllQuestions();
             }).then(() => {
                 this.emit('ready');
-            })
+            });
         });
     }
 
-    getCategories() {
-        this.emit('get-categories');
-        return this.fetch(this.categoriesUrl)
+    get() {
+        this.emit('get');
+        return this.fetch(this.url)
             .then(csvCategories => {
                 let rows = csvCategories.split(/\n/);
                 rows.map(row => {
@@ -56,17 +50,17 @@ export default class extends Module {
                         });
                     const split = row.split(',').map(i => i.replace(/####/gi, ',').replace(/"/gi, ''));
 
-                    this.categories.push({
+                    this.items.push({
                         category: split[0],
                         url: split[1]
                     });
                 });
-                this.emit('got-categories');
+                this.emit('got');
             });
     }
 
-    getData(category) {
-        const url = this.categories.filter(i => i.category === category).map(i => i.url)[0];
+    getQuestions(category) {
+        const url = this.items.filter(i => i.category === category).map(i => i.url)[0];
         this.emit('get-questions', category);
         return this.fetch(url)
             .then(csvData => {
@@ -139,22 +133,22 @@ export default class extends Module {
                     }
                     return data;
                 });
-                this.categories.filter(i => i.category === category)[0].questions = questions;
+                this.items.filter(i => i.category === category)[0].questions = questions;
                 this.emit('got-questions', category, questions);
                 return;
             });
     }
 
-    getAllData(index) {
+    getAllQuestions(index) {
         if (!index)
             index = 0;
 
-        if (!this.categories[index])
+        if (!this.items[index])
             return Promise.resolve();
 
-        const category = this.categories[index].category;
-        return this.getData(category).then(() => {
-            return this.getAllData(index + 1);
+        const category = this.items[index].category;
+        return this.getQuestions(category).then(() => {
+            return this.getAllQuestions(index + 1);
         });
     }
 

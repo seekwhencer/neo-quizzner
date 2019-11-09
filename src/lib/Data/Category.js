@@ -93,6 +93,7 @@ export default class extends Module {
                             correct: split[12] === '1'
                         });
                     }
+
                     return data;
                 });
                 this.questions = questions;

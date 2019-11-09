@@ -15,11 +15,33 @@ export default class extends Module {
                 resolve(this);
             });
 
-            new Categories(this.app).then(categories => {
+            new Categories({
+                app: this.app,
+                data: this
+            }).then(categories => {
                 this.categories = categories;
                 this.emit('ready');
             });
 
         });
     }
+
+    fetch(url) {
+        const requestOptions = {
+            method: 'GET'
+        };
+        return fetch(url, requestOptions)
+            .then(response => {
+                if (!response.ok)
+                    return Promise.reject(response.statusText);
+
+                return response.text();
+            })
+            .then(csv => {
+                if (csv) {
+                    return csv;
+                }
+            });
+    }
+
 }

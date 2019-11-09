@@ -10,9 +10,6 @@ export default class extends Module {
             this.app = args;
             this.categoriesUrl = this.app.options.categoriesUrl;
             this.categories = [];
-            this.categories.simsalabim = function() {
-                this.map(i => console.log(i));
-            };
 
             this.on('ready', () => {
                 console.log(this.label, '>>>', 'GOT ALL QUESTIONS', this.categories);

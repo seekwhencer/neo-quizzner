@@ -1,4 +1,5 @@
 import './scss/app.scss';
+import './Globals.js';
 import Module from './Module.js';
 import Intro from './lib/Intro/index.js';
 import Game from './lib/Game/index.js';

@@ -14,17 +14,18 @@ export default class extends Module {
 
             this.on('ready', () => {
                 console.log(this.label, '>>>', 'GOT ALL CATEGORIES AND QUESTIONS', this.items);
+                this.app.emit('got-questions', this);
                 resolve(this);
             });
 
             this.on('get', () => {
                 console.log(this.label, '>>>', 'GET CATEGORIES');
+                this.app.emit('get-categories', this);
             });
             this.on('got', () => {
                 console.log(this.label, '>>>', 'GOT CATEGORIES', this.items.map(i => i.name));
+                this.app.emit('got-categories', this);
             });
-
-
 
             this.get().then(() => {
                 return this.getAllQuestions();

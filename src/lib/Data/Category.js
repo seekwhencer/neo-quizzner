@@ -14,10 +14,12 @@ export default class extends Module {
         console.log(this.label, '>>> INIT', this.name);
 
         this.on('get-questions', () => {
-            console.log(this.label, '>>>', 'GET QUESTIONS FOR CATEGORY:', this.name);
+            //console.log(this.label, '>>>', 'GET QUESTIONS FOR CATEGORY:', this.name);
+            this.app.emit('get-category-questions', this);
         });
         this.on('got-questions', () => {
-            console.log(this.label, '>>>', 'GOT', this.questions.length, 'QUESTIONS FOR CATEGORY:', this.name, 'WITH', this.questions);
+            //console.log(this.label, '>>>', 'GOT', this.questions.length, 'QUESTIONS FOR CATEGORY:', this.name, 'WITH', this.questions);
+            this.app.emit('got-category-questions', this);
         });
     }
 
@@ -27,7 +29,7 @@ export default class extends Module {
         return this.fetch(this.url)
             .then(csvData => {
                 let rows = csvData.split(/\n/);
-                rows.shift();
+                rows.shift(); // drop the first row, containing the titles (Frage, Antwort...)
                 const questions = rows.map(row => {
                     const match = row.match(new RegExp(/"([^"]+)"/gi));
                     if (match)
@@ -44,6 +46,8 @@ export default class extends Module {
                     let data = {
                         text: split[0]
                     };
+
+
                     data.answer = [];
 
                     //Answer 1

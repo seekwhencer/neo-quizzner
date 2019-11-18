@@ -1,1 +1,1 @@
-window.toDOM = string => new DOMParser().parseFromString(string, "text/xml").documentElement;
+window.toDOM = string => new DOMParser().parseFromString(string, "text/html").documentElement.querySelector('body').firstChild;

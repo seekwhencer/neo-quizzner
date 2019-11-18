@@ -1,5 +1,7 @@
 import Module from '../../Module.js';
 import SetupTemplate from "./templates/Setup.html";
+import SetupPlayerCards from "./templates/SetupPlayerCards.html";
+import SetupPlayerCard from "./templates/SetupPlayerCard.html";
 
 // https://tobiasahlin.com/moving-letters/#6
 
@@ -41,6 +43,7 @@ export default class extends Module {
         });
     }
 
+    // the scrambling text
     text(text, stay) {
         const target = toDOM(`<div data-scramble="title"></div>`);
         this.target.append(target);
@@ -87,20 +90,40 @@ export default class extends Module {
         });
     }
 
+    // say hello
     hello() {
         return this.text(_('intro.setup.welcome'));
     }
 
+    // say prepare yourself
     prepare() {
         return this.text(_('intro.setup.prepare'));
     }
 
+    // ask for number of players
     players() {
         return this
             .text(_('intro.setup.players'), true)
             .then(() => {
+                this.playerCards();
                 return Promise.resolve();
             });
+    }
+
+    playerCards() {
+        this.playerCards = toDOM(SetupPlayerCards());
+        this.target.append(this.playerCards);
+
+        for (let i = 0; i < 4; i++) {
+            const playerCard = toDOM(SetupPlayerCard({
+                scope: {
+                    index: i
+                }
+            }));
+            this.playerCards.append(playerCard);
+        }
+
+
     }
 
 }

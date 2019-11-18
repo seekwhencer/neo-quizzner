@@ -29,4 +29,22 @@
             }
         }
     }
+
+    .player-cards {
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        justify-content: center;
+        width: 100%;
+        bottom: 100px;
+        margin: auto;
+
+        .player-card {
+            flex-direction: row;
+            padding: $fs-s;
+            border: 1px solid $color-chalk;
+        }
+    }
 }

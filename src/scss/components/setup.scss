@@ -3,6 +3,7 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
+    display: block;
 
     [data-scramble="title"] {
         position: absolute;
@@ -31,20 +32,53 @@
     }
 
     .player-cards {
-        position: absolute;
+        position: relative;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-column-gap: 20px;
         grid-row-gap: 20px;
         justify-content: center;
-        width: 100%;
-        bottom: 100px;
+        width: 80%;
+        padding: 0 20px;
         margin: auto;
+        bottom: -50%;
 
         .player-card {
+            position: relative;
             flex-direction: row;
-            padding: $fs-s;
+            border-radius: $fs-l;
             border: 1px solid $color-chalk;
+            overflow: hidden;
+
+            .number {
+                width: 100%;
+                text-align: center;
+                font-size: $fs-omg;
+                overflow: hidden;
+                line-height: 150px;
+                display: block;
+            }
+
+            .name {
+                position: relative;
+                overflow: hidden;
+                display: block;
+                text-align: center;
+                margin-bottom: $fs-xl;
+
+                input {
+                    font-size: $fs-xl;
+                    line-height: $fs-huge;
+                    border: none;
+                    color: $color-foreground-dark;
+                    background-color: $color-chalk;
+                    width: 100%;
+                    text-align: center;
+                    font-weight: 900;
+                }
+            }
+
         }
     }
+
 }

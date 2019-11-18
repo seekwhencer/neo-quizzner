@@ -1,5 +1,6 @@
 import Module from '../../Module.js';
 import Categories from './Categories.js';
+import Translations from './Translations.js';
 
 export default class extends Module {
     constructor(args) {
@@ -15,14 +16,19 @@ export default class extends Module {
                 resolve(this);
             });
 
-            new Categories({
+            new Translations({
                 app: this.app,
                 data: this
+            }).then(translations => {
+                this.translations = translations;
+                return new Categories({
+                    app: this.app,
+                    data: this
+                });
             }).then(categories => {
                 this.categories = categories;
                 this.emit('ready');
             });
-
         });
     }
 

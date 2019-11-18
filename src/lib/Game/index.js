@@ -1,4 +1,5 @@
 import Module from '../../Module.js';
+import Setup from './Setup.js';
 
 export default class extends Module {
     constructor(args) {
@@ -11,10 +12,21 @@ export default class extends Module {
 
             this.on('ready', () => {
                 console.log(this.label, '>>> READY');
+                this.new();
                 resolve(this);
             });
 
             this.emit('ready');
         });
+    }
+
+    new() {
+        return this.setup().then(setup => {
+            this.setup = setup;
+        });
+    }
+
+    setup() {
+        return new Setup(this);
     }
 }

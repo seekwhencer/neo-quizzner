@@ -16,7 +16,10 @@ export default class extends Module {
                 resolve(this);
             });
 
-            // after categories index was loaded
+            this.app.on('get-categories', (() => {
+                console.log('>>>> FROM INTRO - GETTING ALL QUESTIONS');
+                this.categories.classList.add('loading');
+            }));
             this.app.on('got-categories', (categories => {
                 console.log('>>>> FROM INTRO - ALL CATEGORIES LOADED');
                 this.drawCategories(categories);
@@ -24,6 +27,7 @@ export default class extends Module {
 
             this.app.on('got-questions', (categories => {
                 console.log('>>>> FROM INTRO - ALL QUESTIONS LOADED');
+                this.categories.classList.remove('loading');
                 this.categories.classList.add('loaded');
             }));
 
@@ -37,7 +41,6 @@ export default class extends Module {
                 target.classList.remove('loading');
                 target.classList.add('loaded');
                 target.innerHTML += `(${category.questions.length})`;
-
             }));
 
             this.target = toDOM(IntroTemplate({

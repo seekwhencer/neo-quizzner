@@ -1,56 +1,56 @@
 * {
-  font-family: 'Exo', 'Arial';
-  font-weight: 400;
+    font-family: 'Exo', 'Arial';
+    font-weight: 400;
 }
 
 body, html {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: $color-foreground;
-  color: $color-high;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: $color-foreground;
+    color: $color-high;
 }
 
 body {
-  overflow-x: hidden;
+    overflow-x: hidden;
 
-  &:before {
-  }
-
-  &.loading {
     &:before {
     }
 
-    &:after {
-      @keyframes infinite-rotation {
-        0% {
-          transform: rotate(0);
+    &.loading {
+        &:before {
         }
 
-        100% {
-          transform: rotate(360deg);
+        &:after {
+            @keyframes infinite-rotation {
+                0% {
+                    transform: rotate(0);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
         }
-      }
+
+        .app {
+            opacity: 0;
+            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0);
+            transition: all .2s ease-in-out;
+        }
     }
 
-    .app {
-      opacity: 0;
-      box-shadow: inset 0 0 200px rgba(0, 0, 0, 0);
-      transition: all .2s ease-in-out;
-    }
-  }
+    &.resizing {
+        &:before {
+            content: 'resizing...';
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
 
-  &.resizing {
-    &:before {
-      content: 'resizing...';
-      opacity: 1;
-      transition: opacity 1s ease-in-out;
+        .app {
+            opacity: 0;
+            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0);
+            transition: all .2s ease-in-out;
+        }
     }
-
-    .app {
-      opacity: 0;
-      box-shadow: inset 0 0 200px rgba(0, 0, 0, 0);
-      transition: all .2s ease-in-out;
-    }
-  }
 }

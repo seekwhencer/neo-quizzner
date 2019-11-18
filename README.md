@@ -29,6 +29,40 @@ npm run build
 The Difference between the `/dist` and the `/docs` folder are the different url paths in the css files.
 The `/docs` folder is only for github pages.
 
+## The Date from Google Sheets
+- go to google sheets (Tabellen) and create a new one
+- use the first tab (is selected on the bottom of the editor) for the category and tab index.
+The index has three columns: `category label`, `tab url` and a `description` 
+- create a tab for a category with this columns: `question` one time at first (column 0),
+`answer, is correct` (column 1 & 2) as repeated pair per answer (3 & 4, 5 & 6 ...).
+- dont leave empty one `is correct` cell per row.
+that means if anything is in the cell, the answer is the right one.
+Or you can put the resolution in this cell.
+- go to the index tab, go to -> `File (Datei)` -> export web (im Web veröffentlichen)
+- chose at "Link" the name of your index tab
+- chose "Embed (Einbetten)" Comma Seperated Values - CSV (kommagetrennte Werte CSV)
+- check all tabs you want at "published content" (Veröffentlichte Inhalte und Einstellungen)
+- check "auto publish" (Automatisch neu veröffentlichen, wenn Änderungen vorgenommen wurden)
+- repeat the last five steps for any category tab
+- after a category tab was created, publish the tab and enter the `tab url` in a new row in the index tab.
+- the `index tab url` (and all other tab urls) looks like
+  ```
+  https://docs.google.com/spreadsheets/.../pub?gid=2114668796&single=true&output=csv
+  ```
+- to configure the `index tab url` for the index, give the url as option on the beginning:
+  ```
+  <script type="module">
+      const options = {
+          categoriesUrl : 'https://docs.google.com/spreadsheets/.../pub?gid=2114668796&single=true&output=csv'
+      };
+  
+      new QUIZZNER(options).then(quizzner => {
+          window.QUIZZNER = quizzner;
+          console.log('>>> ZACK FEDDICH. QUIZZNER READY');
+      });
+  </script>
+  ```
+
 
 ## License
 

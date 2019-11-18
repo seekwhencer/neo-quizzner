@@ -12,6 +12,7 @@ export default class extends Module {
         return new Promise((resolve, reject) => {
             this.label = 'QUIZZNER';
             this.options = args;
+            this.options.language = this.options.language || 'de';
 
             this.on('ready', () => {
                 resolve(this);

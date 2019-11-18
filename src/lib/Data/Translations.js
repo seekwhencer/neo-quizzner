@@ -27,7 +27,7 @@ export default class extends Module {
             });
 
             // make the translate function global
-            window._ = this._;
+            window._ = (key, language) => this._(key, language);
 
             this.get().then(() => {
                 this.emit('ready');
@@ -68,6 +68,9 @@ export default class extends Module {
         if (!language)
             language = this.language;
 
-        return key ? null : this.items.filter(i => i.key === key)[0][language];
+        if (!key)
+            return 'no key';
+
+        return this.items.filter(i => i.key === key)[0][language];
     }
 }

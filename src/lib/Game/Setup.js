@@ -1,4 +1,5 @@
 import Module from '../../Module.js';
+import SetupTemplate from "./templates/Setup.html";
 
 
 export default class extends Module {
@@ -15,6 +16,15 @@ export default class extends Module {
                 console.log(this.label, '>>> READY');
                 resolve(this);
             });
+
+            setTimeout(() => this.app.removeIntro(), 2000);
+
+            this.target = toDOM(SetupTemplate({
+                scope: {
+
+                }
+            }));
+            document.querySelector('body').append(this.target);
 
             this.emit('ready');
         });

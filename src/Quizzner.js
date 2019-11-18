@@ -65,4 +65,12 @@ export default class extends Module {
         this.resizing = false;
     }
 
+    removeIntro() {
+        if (!this.intro)
+            return;
+
+        this.intro.remove();
+        delete this.intro;
+    }
+
 }

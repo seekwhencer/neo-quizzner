@@ -65,4 +65,8 @@ export default class extends Module {
             this.categories.append(element);
         });
     }
+
+    remove() {
+        this.target.remove();
+    }
 }

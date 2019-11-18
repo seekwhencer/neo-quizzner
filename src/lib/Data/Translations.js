@@ -51,7 +51,7 @@ export default class extends Module {
                     let translation = {
                         key: split[0]
                     };
-                    ['de', 'en', 'pl', 'fr', 'es', 'ru'].map((i, index) => {
+                    ['en', 'de', 'pl', 'fr', 'es', 'ru'].map((i, index) => {
                         split[index + 1] ? translation[i] = split[index + 1] : null;
                     });
                     this.items.push(translation);

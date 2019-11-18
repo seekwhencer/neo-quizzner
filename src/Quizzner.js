@@ -5,6 +5,8 @@ import Intro from './lib/Intro/index.js';
 import Game from './lib/Game/index.js';
 import Data from './lib/Data/index.js';
 
+import anime from 'animejs';
+
 export default class extends Module {
     constructor(args) {
         super();
@@ -26,6 +28,9 @@ export default class extends Module {
                 console.log(this.label, '>>> WINDOW RESIZE END');
             });
 
+            //
+            this.anime = anime;
+
             // window resize end behavior
             this.resizeTimeout = false;
             this.resizing = false;
@@ -46,6 +51,7 @@ export default class extends Module {
                 return new Game(this);
             }).then(game => {
                 this.game = game;
+                setTimeout(() => this.removeIntro(), 2000);
                 this.emit('ready');
             })
 

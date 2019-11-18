@@ -2,6 +2,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 
     h1 {
         font-size: $fs-omg;
@@ -19,8 +20,7 @@
         justify-content: center;
         width: $screen-sm-min;
         margin: auto;
-        margin-top: 200px;
-
+        margin-top: 20%;
 
         .loading-category {
             flex-direction: row;

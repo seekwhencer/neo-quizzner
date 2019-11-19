@@ -1,8 +1,7 @@
 import Module from '../../Module.js';
-import PlayerCards from './PlayerCards.js';
+import SetupPlayerCards from './SetupPlayerCards.js';
+import SetupCategoryCards from './SetupCategoryCards.js';
 import SetupTemplate from "./templates/Setup.html";
-import SetupPlayerCards from "./templates/SetupPlayerCards.html";
-import SetupPlayerCard from "./templates/SetupPlayerCard.html";
 
 // https://tobiasahlin.com/moving-letters/#6
 
@@ -37,7 +36,10 @@ export default class extends Module {
                     return this.players();
                 })
                 .then(() => {
-                    console.log('>>>>>>>>>>>>>>>>> PLAYERS');
+                    return this.categories();
+                })
+                .then(() => {
+                    console.log('>>>>>>>>>>>>>>>>> PLAYERS', this.playerItems,  this.categoryItems);
                 });
 
             this.emit('ready');
@@ -106,8 +108,26 @@ export default class extends Module {
         return this
             .text(_('intro.setup.players'), true)
             .then(() => {
-                new PlayerCards(this);
-                return Promise.resolve();
+                return new SetupPlayerCards(this);
+            })
+            .then(playerCards => {
+                this.playerCards = playerCards;
+                this.playerItems = this.playerCards.players;
+                return this.playerCards.away();
             });
     }
+
+    categories(){
+        return this
+            .text(_('intro.setup.categories'), true)
+            .then(() => {
+                return new SetupCategoryCards(this);
+            })
+            .then(categoryCards => {
+                this.categoryCards = categoryCards;
+                this.categoryItems = this.categoryCards.categories;
+                return this.categoryCards.away();
+            });
+    }
+
 }

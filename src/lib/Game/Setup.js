@@ -43,10 +43,10 @@ export default class extends Module {
                     return this.rounds();
                 })
                 .then(() => {
-                    console.log('>>>>>>>>>>>>>>>>> PLAYERS', this.playerItems,  this.categoryItems, this.rounds);
+                    this.emit('ready');
                 });
 
-            this.emit('ready');
+
         });
     }
 

@@ -21,9 +21,12 @@ export default class extends Module {
     }
 
     new() {
-        return this.setup().then(setup => {
-            this.setup = setup;
-        });
+        return this
+            .setup()
+            .then(setup => {
+                this.setup = setup;
+                console.log('>>> SETUP COMPLETE:', this.setup.playerItems, this.setup.categoryItems, this.setup.rounds);
+            });
     }
 
     setup() {

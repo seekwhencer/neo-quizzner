@@ -110,18 +110,4 @@ export default class extends Module {
                 return Promise.resolve();
             });
     }
-
-    playerCards() {
-        this.playerCards = toDOM(SetupPlayerCards());
-        this.target.append(this.playerCards);
-
-        for (let i = 0; i < 4; i++) {
-            const playerCard = toDOM(SetupPlayerCard({
-                scope: {
-                    index: i
-                }
-            }));
-            this.playerCards.append(playerCard);
-        }
-    }
 }

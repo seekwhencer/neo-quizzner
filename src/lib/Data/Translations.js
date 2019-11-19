@@ -71,6 +71,10 @@ export default class extends Module {
         if (!key)
             return 'no key';
 
-        return this.items.filter(i => i.key === key)[0][language];
+        const row = this.items.filter(i => i.key === key)[0];
+        if(row)
+            return row[language];
+
+        return `key: ${key} not found`;
     }
 }

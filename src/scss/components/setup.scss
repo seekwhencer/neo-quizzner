@@ -42,6 +42,12 @@
         padding: 0 20px;
         margin: auto;
         bottom: -50%;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+
+        &.active {
+            opacity: 1;
+        }
 
         .player-card {
             position: relative;
@@ -49,6 +55,9 @@
             border-radius: $fs-l;
             border: 1px solid $color-chalk;
             overflow: hidden;
+            opacity: 0.5;
+            filter: blur(5px);
+            transition: all 0.2s ease-in-out;
 
             .number {
                 width: 100%;
@@ -76,6 +85,22 @@
                     text-align: center;
                     font-weight: 900;
                 }
+            }
+
+            &.filled {
+                opacity: 1;
+                filter: blur(0);
+                border-color: $color-green-dark;
+                background: rgb(2,0,36);
+                background: linear-gradient(0deg, $color-green-dark 0%, $color-green 100%);
+                transition: all 0.2s ease-in-out;
+            }
+
+            &.active {
+                opacity: 1;
+                transform: scale(1.1);
+                filter: blur(0);
+                transition: all 0.2s ease-in-out;
             }
 
         }

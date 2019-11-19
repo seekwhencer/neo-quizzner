@@ -1,4 +1,5 @@
 import Module from '../../Module.js';
+import PlayerCards from './PlayerCards.js';
 import SetupTemplate from "./templates/Setup.html";
 import SetupPlayerCards from "./templates/SetupPlayerCards.html";
 import SetupPlayerCard from "./templates/SetupPlayerCard.html";
@@ -26,12 +27,12 @@ export default class extends Module {
 
             this
                 .wait(2000)
-                .then(() => {
+                /*.then(() => {
                     return this.hello();
                 })
                 .then(() => {
                     return this.prepare();
-                })
+                })*/
                 .then(() => {
                     return this.players();
                 })
@@ -105,7 +106,7 @@ export default class extends Module {
         return this
             .text(_('intro.setup.players'), true)
             .then(() => {
-                this.playerCards();
+                new PlayerCards(this);
                 return Promise.resolve();
             });
     }
@@ -122,8 +123,5 @@ export default class extends Module {
             }));
             this.playerCards.append(playerCard);
         }
-
-
     }
-
 }

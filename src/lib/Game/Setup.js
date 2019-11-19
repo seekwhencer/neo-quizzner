@@ -1,6 +1,7 @@
 import Module from '../../Module.js';
 import SetupPlayerCards from './SetupPlayerCards.js';
 import SetupCategoryCards from './SetupCategoryCards.js';
+import SetupRoundCards from './SetupRoundCards.js';
 import SetupTemplate from "./templates/Setup.html";
 
 // https://tobiasahlin.com/moving-letters/#6
@@ -39,7 +40,10 @@ export default class extends Module {
                     return this.categories();
                 })
                 .then(() => {
-                    console.log('>>>>>>>>>>>>>>>>> PLAYERS', this.playerItems,  this.categoryItems);
+                    return this.rounds();
+                })
+                .then(() => {
+                    console.log('>>>>>>>>>>>>>>>>> PLAYERS', this.playerItems,  this.categoryItems, this.rounds);
                 });
 
             this.emit('ready');
@@ -127,6 +131,19 @@ export default class extends Module {
                 this.categoryCards = categoryCards;
                 this.categoryItems = this.categoryCards.categories;
                 return this.categoryCards.away();
+            });
+    }
+
+    rounds(){
+        return this
+            .text(_('intro.setup.rounds'), true)
+            .then(() => {
+                return new SetupRoundCards(this);
+            })
+            .then(roundCards => {
+                this.roundCards = roundCards;
+                this.rounds = this.roundCards.rounds;
+                return this.roundCards.away();
             });
     }
 

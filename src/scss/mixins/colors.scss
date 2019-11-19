@@ -11,9 +11,17 @@ $color-green-dark: darken(desaturate($color-green, 10%), 10%);
 $color-green-light: lighten(desaturate($color-green, 20%), 20%);
 
 $color-foreground: #444444;
+
 $color-foreground-dark: darken($color-foreground, 2%);
+$color-foreground-darker: darken($color-foreground, 6%);
+$color-foreground-darkest: darken($color-foreground, 10%);
+
 $color-high: #ffffff;
 $color-deep: #000000;
 $color-chalk: #dddddd;
 $color-beton: #bbbbbb;
 $color-dark: #999999;
+
+$color-matte-dark: rgba(0,0,0,0.2);
+$color-matte-darker: rgba(0,0,0,0.4);
+$color-matte-darkest: rgba(0,0,0,0.6);

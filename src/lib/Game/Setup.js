@@ -27,26 +27,24 @@ export default class extends Module {
 
             this
                 .wait(2000)
-                /*.then(() => {
+                .then(() => {
                     return this.hello();
                 })
                 .then(() => {
                     return this.prepare();
-                })*/
-                .then(() => {
-                    return this.players();
                 })
                 .then(() => {
-                    return this.categories();
+                    return this.chosePlayers();
                 })
                 .then(() => {
-                    return this.rounds();
+                    return this.choseCategories();
+                })
+                .then(() => {
+                    return this.choseRounds();
                 })
                 .then(() => {
                     this.emit('ready');
                 });
-
-
         });
     }
 
@@ -108,7 +106,7 @@ export default class extends Module {
     }
 
     // ask for number of players
-    players() {
+    chosePlayers() {
         return this
             .text(_('intro.setup.players'), true)
             .then(() => {
@@ -116,12 +114,12 @@ export default class extends Module {
             })
             .then(playerCards => {
                 this.playerCards = playerCards;
-                this.playerItems = this.playerCards.players;
+                this.players = this.playerCards.players;
                 return this.playerCards.away();
             });
     }
 
-    categories(){
+    choseCategories(){
         return this
             .text(_('intro.setup.categories'), true)
             .then(() => {
@@ -129,12 +127,12 @@ export default class extends Module {
             })
             .then(categoryCards => {
                 this.categoryCards = categoryCards;
-                this.categoryItems = this.categoryCards.categories;
+                this.categories = this.categoryCards.categories;
                 return this.categoryCards.away();
             });
     }
 
-    rounds(){
+    choseRounds(){
         return this
             .text(_('intro.setup.rounds'), true)
             .then(() => {

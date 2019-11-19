@@ -1,0 +1,54 @@
+.game-players {
+    position: absolute;
+    display: block;
+    width: 100%;
+    bottom: 0;
+    opacity: 1;
+    text-align: center;
+
+    .game-player {
+        position: relative;
+        display: inline-block;
+        width: calc(25% - 46px);
+        border-radius: 125px 125px 0 0;
+        border: 3px solid $color-chalk;
+        border-bottom: none;
+        overflow: hidden;
+        opacity: 1;
+        transition: all 1s ease-in-out;
+        margin: 0 20px;
+        text-align: center;
+        background: $color-foreground;
+
+        &.active {
+            background: $color-green;
+            transition: all 0.02s ease-in-out;
+            box-shadow: 0 0 50px $color-green;
+        }
+
+        .game-player-key {
+            display: inline-block;
+            font-size: $fs-xl;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            margin: 20px 0 10px 0;
+            border: 1px solid $color-chalk;
+            border-radius: 3px;
+        }
+
+        .game-player-name {
+            line-height: $fs-huge;
+            font-size: $fs-xxl;
+            font-weight: 900;
+            background-color: $color-matte-dark;
+        }
+
+        .game-player-score {
+            line-height: $fs-huge;
+            font-weight: 900;
+            font-size: $fs-xxl;
+            background-color: $color-matte-darker;
+        }
+    }
+
+}

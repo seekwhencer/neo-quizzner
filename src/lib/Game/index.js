@@ -19,6 +19,9 @@ export default class extends Module {
                     .new()
                     .then(() => {
                         return this.run();
+                    })
+                    .then(() => {
+                        console.log('>>>', this.label, 'GAME OVER');
                     });
             });
 
@@ -30,15 +33,15 @@ export default class extends Module {
         return this
             .wait(2000)
             .then(() => {
-                return this.setup();
-            })
-            .then(setup => {
-                this.setup = setup;
-                /*this.setup = {
-                    players: ['Matze','Horst','Marie','Holger'],
+                //    return this.setup();
+                //})
+                //.then(setup => {
+                //    this.setup = setup;
+                this.setup = {
+                    players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Frontend', 'Universum'],
                     rounds: 12
-                };*/
+                };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -54,20 +57,27 @@ export default class extends Module {
         return new Setup(this);
     }
 
-    run() {
-        return this.ask();
+    run(){
+        return this.oneRound();
+    }
+
+    oneRound(index) {
+        if (!index)
+            index = 0;
+
+        if (index === this.setup.rounds) {
+            return Promise.resolve();
+        }
+        return this.ask(index).then(() => {
+            return this.oneRound(index + 1);
+        });
     }
 
     ask(index) {
         return new Promise(resolve => {
-            if (!index)
-                index = 0;
-
-
-            resolve();
+            console.log('>>>>>> ASKED', index, this.setup.rounds);
+            setTimeout(() => resolve(), 1000);
         });
-
-
     }
 
     text(text, stay) {

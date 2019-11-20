@@ -37,8 +37,9 @@ export default class extends Module {
                 .add({
                     targets: '.game-players .game-player',
                     translateY: [200, 0],
-                    duration: 100,
-                    delay: (el, i) => 150 * i
+                    duration: 300,
+                    delay: (el, i) => 50 * i,
+                    easing: 'easeOutExpo'
                 });
 
             document.body.addEventListener('keydown', e => this.keypress(e));

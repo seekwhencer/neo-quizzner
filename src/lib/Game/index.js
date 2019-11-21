@@ -1,4 +1,3 @@
-import {once} from 'events';
 import Module from '../../Module.js';
 import Setup from './Setup.js';
 import Players from './Players.js';

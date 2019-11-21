@@ -53,7 +53,9 @@ Or you can put the resolution in this cell.
   ```
   <script type="module">
       const options = {
-          categoriesUrl : 'https://docs.google.com/spreadsheets/.../pub?gid=2114668796&single=true&output=csv'
+          categoriesUrl : 'https://docs.google.com/spreadsheets/.../pub?gid=2114668796&single=true&output=csv',
+          translationsUrl : 'https://docs.google.com/spreadsheets/.../pub?gid=192674322&single=true&output=csv',
+          rounds: [12,24,36,48]
       };
   
       new QUIZZNER(options).then(quizzner => {

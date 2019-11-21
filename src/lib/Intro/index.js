@@ -1,6 +1,6 @@
 import Module from '../../Module.js';
-import IntroTemplate from './templates/intro.html';
-import CategoryTemplate from './templates/category.html';
+import IntroTemplate from './templates/Intro.html';
+import CategoryTemplate from './templates/Category.html';
 
 export default class extends Module {
     constructor(args) {

@@ -51,6 +51,7 @@ export default class extends Module {
     }
 
     keypress(e) {
+        console.log('>>>>>>>>>>',e);
         if (this.locked === false) {
             const player = this.items.filter(i => i.key === e.key)[0];
             if (!player)

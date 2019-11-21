@@ -41,7 +41,7 @@ export default class extends Module {
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Frontend', 'Universum'],
-                    rounds: 2
+                    rounds: 12
                 };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
@@ -51,6 +51,7 @@ export default class extends Module {
             })
             .then(players => {
                 this.players = players;
+                this.players.lock();
                 return new Rounds(this);
             })
             .then(rounds => {
@@ -88,13 +89,17 @@ export default class extends Module {
     }
 
     ask(index) {
+        this.players.lock(true);
         return new Promise(resolve => {
             console.log('>>>>>> ASKING', index + 1, `(${index})`, 'OF', this.setup.rounds);
             this
                 .text(`${_('game.round')} ${index + 1}`)
                 .then(() => {
                     // @TODO start here the timeout and the visual counter
-                    this.on('hit', () => resolve()); // woohaaa - this must be the end
+                    this.players.unlock();
+                    this.on('hit', () => resolve());
+                    this.on('correct', () => resolve());
+                    this.on('wrong', () => resolve());
                 });
         });
     }

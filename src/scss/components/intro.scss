@@ -26,7 +26,8 @@
             flex-direction: row;
             padding: $fs-s;
             text-align: center;
-            border: 1px solid $color-high;
+            border: 1px solid $color-highlight-higher;
+            background: $color-matte-dark;
             transition: all 0.5s ease-in-out;
             border-radius: 3px;
             opacity: 0;

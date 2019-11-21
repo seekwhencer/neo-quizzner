@@ -25,8 +25,10 @@ export default class extends Module {
                 card.button.onclick = () => {
                     if (card.button.classList.contains('active')) {
                         card.button.classList.remove('active');
+                        card.classList.remove('active');
                     } else {
                         card.button.classList.add('active');
+                        card.classList.add('active');
                     }
                     this.checkConfirm();
                 };
@@ -49,8 +51,9 @@ export default class extends Module {
                     targets: '.category-card',
                     opacity: [0, 1],
                     scale: [1.1, 1],
-                    duration: 10,
-                    delay: (el, i) => 50 * i
+                    filter: ['blur(10px)', 'blur(0px)'],
+                    duration: 1000,
+                    delay: (el, i) => 150 * i
                 });
 
             this.buttons = toDOM(SetupCategoryButtonTemplate());
@@ -80,7 +83,7 @@ export default class extends Module {
     }
 
     checkConfirm() {
-        const cards = Array.prototype.slice.call(this.cards.querySelectorAll('.category-cards .active'));
+        const cards = Array.prototype.slice.call(this.cards.querySelectorAll('.category-cards button.active'));
         this.categories = cards.map(i => i.innerHTML.trim());
         cards.length > 0 ? this.confirmButton.disabled = false : this.confirmButton.disabled = true;
     }
@@ -91,25 +94,22 @@ export default class extends Module {
                 loop: false
             })
             .add({
-                targets: '.category-card',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 100 * i,
-                changeComplete: () => {
-                    this.setup.target.querySelector('.category-cards').remove();
-                }
+                targets: '.category-card:not(.active)',
+                opacity: [1, 0],
+                scale: [1, 1.4],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i
             })
             .add({
-                targets: '.buttons',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 100 * i,
+                targets: '.category-card.active',
+                opacity: [1, 0],
+                scale: [1, 1.4],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 2000,
+                delay: (el, i) => 500 * i,
                 changeComplete: () => {
-                    this.setup.target.querySelector('.buttons').remove();
+                    this.setup.target.querySelector('.category-cards').remove();
                 }
             })
             .add({
@@ -121,6 +121,16 @@ export default class extends Module {
                 delay: (el, i) => 20 * i,
                 changeComplete: () => {
                     document.querySelector('[data-scramble="title"]').remove();
+                }
+            })
+            .add({
+                targets: '.buttons',
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                changeComplete: () => {
+                    this.setup.target.querySelector('.buttons').remove();
                 }
             });
 

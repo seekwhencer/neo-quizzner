@@ -15,7 +15,7 @@ export default class extends Module {
             this.cards = toDOM(SetupRoundCardsTemplate());
             this.setup.target.append(this.cards);
 
-            this.roundsPreset = [12, 24, 36, 48];
+            this.roundsPreset = this.app.options.rounds || [12, 24, 36, 48];
 
             this.roundsPreset.map(i => {
                 const card = toDOM(SetupRoundCardTemplate({
@@ -49,8 +49,9 @@ export default class extends Module {
                     targets: '.round-card',
                     opacity: [0, 1],
                     scale: [1.1, 1],
-                    duration: 10,
-                    delay: (el, i) => 100 * i
+                    filter: ['blur(10px)', 'blur(0px)'],
+                    duration: 1000,
+                    delay: (el, i) => 150 * i
                 });
 
             this.buttons = toDOM(SetupRoundButtonTemplate());
@@ -77,22 +78,21 @@ export default class extends Module {
             })
             .add({
                 targets: '.round-card',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 100 * i,
+                opacity: [1, 0],
+                scale: [1, 5],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
                 changeComplete: () => {
                     this.setup.target.querySelector('.round-cards').remove();
                 }
             })
             .add({
                 targets: '.buttons',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 100 * i,
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
                 changeComplete: () => {
                     this.setup.target.querySelector('.buttons').remove();
                 }
@@ -102,7 +102,7 @@ export default class extends Module {
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
-                duration: 10,
+                duration: 1000,
                 delay: (el, i) => 20 * i,
                 changeComplete: () => {
                     document.querySelector('[data-scramble="title"]').remove();

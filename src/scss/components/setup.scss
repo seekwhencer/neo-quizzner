@@ -174,6 +174,7 @@
         opacity: 0;
         transition: all 0.2s ease-in-out;
 
+
         &.active {
             opacity: 1;
         }
@@ -183,31 +184,26 @@
             flex-direction: row;
             border: none;
             overflow: hidden;
-            opacity: 0.5;
-            transition: all 0.2s ease-in-out;
             display: block;
-
+            background: $color-matte-dark;
+            filter: blur(10px);
 
             button {
                 background: none;
                 color: $color-high;
                 display: block;
-                font-size: $fs-xl;
-                font-weight: 900;
-                border: 1px solid $color-high;
+                font-size: $fs-xxl;
+                font-weight: 200;
+                border: 1px solid $color-highlight-higher;
                 width: 100%;
                 padding: 10px 0;
                 cursor: pointer;
-                opacity: 0.5;
-                transition: all 0.2s ease-in-out;
 
                 &.active {
                     background-color: $color-green;
-                    font-weight: 800;
+                    font-weight: 900;
                     border-color: $color-green-dark;
                     text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
-                    opacity: 1;
-                    transition: all 0.2s ease-in-out;
                 }
 
             }
@@ -227,7 +223,6 @@
         margin: auto;
         bottom: -50%;
         opacity: 0;
-        transition: all 0.2s ease-in-out;
 
         &.active {
             opacity: 1;
@@ -238,28 +233,26 @@
             flex-direction: row;
             border: none;
             overflow: hidden;
-            transition: all 0.2s ease-in-out;
             display: block;
+            background: $color-matte-dark;
 
             button {
                 background: none;
                 color: $color-high;
                 display: block;
                 font-size: $fs-omg;
-                font-weight: 900;
-                border: 1px solid $color-high;
+                font-weight: 200;
+                border: 1px solid $color-highlight-higher;
                 width: 100%;
                 padding: 10px 0;
                 cursor: pointer;
-                opacity: 0.5;
                 transition: all 0.2s ease-in-out;
 
                 &.active {
                     background-color: $color-green;
-                    font-weight: 800;
+                    font-weight: 900;
                     border-color: $color-green-dark;
                     text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
-                    opacity: 1;
                     transition: all 0.2s ease-in-out;
                 }
 

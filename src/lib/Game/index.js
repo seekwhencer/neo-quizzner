@@ -1,6 +1,7 @@
 import Module from '../../Module.js';
 import Setup from './Setup.js';
 import Players from './Players.js';
+import Rounds from './Rounds.js';
 
 export default class extends Module {
     constructor(args) {
@@ -33,15 +34,15 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                    return this.setup();
-                })
-                .then(setup => {
-                    this.setup = setup;
-                /*this.setup = {
+                //    return this.setup();
+                //})
+                //.then(setup => {
+                //    this.setup = setup;
+                this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Frontend', 'Universum'],
                     rounds: 2
-                };*/
+                };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -50,6 +51,10 @@ export default class extends Module {
             })
             .then(players => {
                 this.players = players;
+                return new Rounds(this);
+            })
+            .then(rounds => {
+                this.rounds = rounds;
                 return Promise.resolve();
             });
     }
@@ -69,6 +74,9 @@ export default class extends Module {
         if (index === this.setup.rounds) {
             return this.finish();
         }
+
+        this.round = index;
+
         return this
             .ask(index)
             .then(() => {
@@ -141,5 +149,13 @@ export default class extends Module {
             });
         }
         return animation.finished;
+    }
+
+    get round() {
+        return this._round;
+    }
+    set round(value) {
+        this._round = value;
+        this.rounds.setRound();
     }
 }

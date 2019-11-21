@@ -53,7 +53,7 @@ export default class extends Module {
     keypress(e) {
         this.timeout ? clearTimeout(this.timeout) : false;
         this.timeout = setTimeout(() => {
-            this.locked = false;
+            this.unlock();
         }, this.locked_ms);
 
         if (this.locked === false) {
@@ -61,8 +61,16 @@ export default class extends Module {
             if (!player)
                 return;
 
-            this.locked = true;
+            this.lock();
             player.hit();
         }
+    }
+
+    lock(){
+        this.locked = true;
+    }
+
+    unlock(){
+        this.locked = false;
     }
 }

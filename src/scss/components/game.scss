@@ -19,15 +19,9 @@
         text-align: center;
         background: $color-foreground;
 
-        transition-property: background, box-shadow;
-        transition-duration: 1s;
+        transition-property: background, box-shadow, border-radius;
+        transition-duration: .5s;
         transition-timing-function: ease-in-out;
-
-        &.active {
-            background: $color-green;
-            transition: all 0.02s ease-in-out;
-            box-shadow: 0 0 50px $color-green;
-        }
 
         .game-player-key {
             display: inline-block;
@@ -44,6 +38,7 @@
             font-size: $fs-xxl;
             font-weight: 900;
             background-color: $color-matte-dark;
+            transition: all 0.2s ease-in-out;
         }
 
         .game-player-score {
@@ -51,6 +46,18 @@
             font-weight: 900;
             font-size: $fs-xxl;
             background-color: $color-matte-darker;
+        }
+
+        &.active {
+            background: $color-green;
+            transition: all 0.02s ease-in-out;
+            box-shadow: 0 0 50px $color-green;
+            border-radius: 5px 5px 0 0;
+
+            .game-player-name {
+                line-height: $fs-jesus;
+                transition: all 0.05s ease-in-out;
+            }
         }
     }
 

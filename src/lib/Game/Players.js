@@ -37,14 +37,16 @@ export default class extends Module {
                 .add({
                     targets: '.game-players .game-player',
                     translateY: [200, 0],
-                    duration: 300,
-                    delay: (el, i) => 50 * i,
-                    easing: 'easeOutExpo'
+                    duration: 500,
+                    delay: (el, i) => 200 * i,
+                    easing: 'easeOutExpo',
+                    changeComplete: () => {
+                        this.emit('ready');
+                    }
                 });
 
             document.body.addEventListener('keydown', e => this.keypress(e));
 
-            this.emit('ready');
         });
     }
 

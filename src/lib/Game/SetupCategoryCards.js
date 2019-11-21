@@ -113,14 +113,14 @@ export default class extends Module {
                 }
             })
             .add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
                 duration: 10,
                 delay: (el, i) => 20 * i,
                 changeComplete: () => {
-                    this.setup.target.querySelector('[data-scramble="title"]').remove();
+                    document.querySelector('[data-scramble="title"]').remove();
                 }
             });
 

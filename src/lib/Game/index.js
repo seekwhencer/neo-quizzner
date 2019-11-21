@@ -25,6 +25,7 @@ export default class extends Module {
                     });
             });
 
+            this.on('hit', player => this.hit(player));
             this.emit('ready');
         });
     }
@@ -32,15 +33,15 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                //    return this.setup();
-                //})
-                //.then(setup => {
-                //    this.setup = setup;
-                this.setup = {
+                    return this.setup();
+                })
+                .then(setup => {
+                    this.setup = setup;
+                /*this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Frontend', 'Universum'],
                     rounds: 2
-                };
+                };*/
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -49,6 +50,7 @@ export default class extends Module {
             })
             .then(players => {
                 this.players = players;
+                return Promise.resolve();
             });
     }
 
@@ -67,17 +69,24 @@ export default class extends Module {
         if (index === this.setup.rounds) {
             return this.finish();
         }
-        return this.ask(index).then(() => {
-            return this.oneRound(index + 1);
-        });
+        return this
+            .ask(index)
+            .then(() => {
+                return this.text(`Nice.`);
+            })
+            .then(() => { // repeat it here
+                return this.oneRound(index + 1);
+            });
     }
 
     ask(index) {
         return new Promise(resolve => {
-            console.log('>>>>>> ASKED', index, this.setup.rounds);
-            this.text(`${_('game.round')} ${index + 1}`)
+            console.log('>>>>>> ASKING', index + 1, `(${index})`, 'OF', this.setup.rounds);
+            this
+                .text(`${_('game.round')} ${index + 1}`)
                 .then(() => {
-                    resolve();
+                    // @TODO start here the timeout and the visual counter
+                    this.on('hit', () => resolve()); // woohaaa - this must be the end
                 });
         });
     }
@@ -86,15 +95,20 @@ export default class extends Module {
         return new Promise(resolve => {
             console.log('>>>>>> FINISHED', this.setup.rounds);
             // @TODO make another, fancier end animation
-            this.text(`${_('game.finish')}`)
+            this
+                .text(`${_('game.finish')}`)
                 .then(() => {
                     resolve();
                 });
         });
     }
 
+    hit(player) {
+        console.log('>>> !!! <<<', player.name);
+    }
+
     text(text, stay) {
-        const target = createScramble(text);
+        const target = createScrambleWords(text);
         document.querySelector('body').append(target);
 
         const readDelay = text.length * 150;
@@ -103,11 +117,11 @@ export default class extends Module {
                 loop: false
             })
             .add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 translateY: ["1.4em", 0],
                 translateZ: 0,
                 duration: 750,
-                delay: (el, i) => 50 * i
+                delay: (el, i) => 250 * i
             })
             .add({
                 delay: readDelay
@@ -115,7 +129,7 @@ export default class extends Module {
 
         if (!stay) {
             animation.add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,

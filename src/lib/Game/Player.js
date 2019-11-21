@@ -38,5 +38,6 @@ export default class extends Module {
         console.log('>>>', this.label, 'HITTING', this.name);
         this.target.classList.add('active');
         setTimeout(() => this.target.classList.remove('active'), this.locked_ms);
+        this.players.game.emit('hit', this);
     }
 }

@@ -23,7 +23,7 @@ window.wait = ms => {
 };
 
 /**
- * Wrap a text in a usable markup for scrambling
+ * Wrap a text, letter by letter, in a usable markup for scrambling
  * Wants a text
  * Returns a DOM element (tree)
  *
@@ -31,9 +31,26 @@ window.wait = ms => {
  * @returns {ChildNode}
  */
 window.createScramble = text => {
-    const element = toDOM(`<div data-scramble="title"></div>`);
-    element.innerHTML = (`<span class="text-wrapper"><span class="letters">${text}</span></span>`);
-    const textWrapper = element.querySelector('.letters');
-    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-letters"></div>`);
+    element.innerHTML = (`<span class="text-wrapper"><span class="parts">${text}</span></span>`);
+    const textWrapper = element.querySelector('.parts');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='part'>$&</span>");
+    return element;
+};
+
+/**
+ * Wrap a text, word by word, in a usable markup for scrambling
+ * Wants a text
+ * Returns a DOM element (tree)
+ *
+ * @param text
+ * @returns {ChildNode}
+ */
+window.createScrambleWords = text => {
+    const words = text.split(/ /g);
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words"><span class="text-wrapper"><span class="parts"></div>`);
+    words.map(i => {
+        element.querySelector('.parts').append(toDOM(`<span class="part">${i}</span>`));
+    });
     return element;
 };

@@ -58,7 +58,7 @@ export default class extends Module {
                 loop: false
             })
             .add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 translateY: ["1.4em", 0],
                 translateZ: 0,
                 duration: 750,
@@ -70,7 +70,7 @@ export default class extends Module {
 
         if (!stay) {
             animation.add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,

@@ -56,7 +56,7 @@ body {
     }
 }
 
-[data-scramble="title"] {
+.scramble {
     position: absolute;
     top: 30%;
     font-weight: 900;
@@ -74,10 +74,16 @@ body {
         padding-bottom: 0.1em;
         overflow: hidden;
 
-        .letter {
+        .part {
             display: inline-block;
             line-height: 1em;
             font-weight: 100;
+        }
+    }
+
+    &.scramble-words {
+        .part {
+            margin-right: 10px;
         }
     }
 }

@@ -99,7 +99,9 @@ export default class extends Module {
                 duration: 10,
                 delay: (el, i) => 100 * i,
                 changeComplete: () => {
-                    this.setup.target.querySelector('.player-cards').remove();
+                    console.log('>>> WTF', this.setup.target);
+                    if (this.setup.target.querySelector('.player-cards'))
+                        this.setup.target.querySelector('.player-cards').remove();
                 }
             })
             .add({
@@ -110,18 +112,20 @@ export default class extends Module {
                 duration: 10,
                 delay: (el, i) => 100 * i,
                 changeComplete: () => {
-                    this.setup.target.querySelector('.buttons').remove();
+                    if (this.setup.target.querySelector('.buttons'))
+                        this.setup.target.querySelector('.buttons').remove();
                 }
             })
             .add({
-                targets: '[data-scramble="title"] .letter',
+                targets: '[data-scramble="title"] .part',
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
                 duration: 10,
                 delay: (el, i) => 20 * i,
                 changeComplete: () => {
-                    this.setup.target.querySelector('[data-scramble="title"]').remove();
+                    if (document.querySelector('[data-scramble="title"]'))
+                       document.querySelector('[data-scramble="title"]').remove();
                 }
             });
 

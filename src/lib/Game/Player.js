@@ -4,7 +4,6 @@ import PlayerTemplate from './templates/Players/Player.html';
 export default class extends Module {
     constructor(args) {
         super();
-        //return new Promise((resolve, reject) => {
         this.label = 'PLAYER';
         this.players = args.players;
         this.name = args.name;
@@ -19,7 +18,6 @@ export default class extends Module {
 
         this.on('ready', () => {
             console.log(this.label, '>>> READY');
-            //resolve(this);
         });
 
         this.target = toDOM(PlayerTemplate({
@@ -31,17 +29,38 @@ export default class extends Module {
         this.players.target.append(this.target);
 
         this.emit('ready');
-        //});
     }
 
-    hit() {
-        console.log('>>>', this.label, 'HITTING', this.name);
+    buzzer() {
+        console.log('>>>', this.label, 'BUZZER', this.name);
+        this.active = true;
         this.players.lock();
-        this.target.classList.add('active');
-        this.players.game.emit('hit', this);
+        this.players.game.emit('buzzer', this);
     }
 
-    blur(){
-        this.target.classList.remove('active');
+    blur() {
+        this.active = false;
+    }
+
+    answer(number) {
+        if (this.number)
+            return;
+
+        if (!this.number)
+            this.number = number;
+
+        // @TODO CORRECTNESS CHECK HERE
+        this.players.game.emit('correct', this);
+        console.log('>>>', this.label, this.name, 'ANSWERS:', number);
+    }
+
+    set active(val) {
+        this._active = val;
+        this.number = false;
+        this.active ? this.target.classList.add('active') : this.target.classList.remove('active');
+    }
+
+    get active() {
+        return this._active;
     }
 }

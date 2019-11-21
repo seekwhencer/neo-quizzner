@@ -46,11 +46,35 @@ window.createScramble = text => {
  * @param text
  * @returns {ChildNode}
  */
-window.createScrambleWords = text => {
+window.createScrambleWords = (text, className) => {
     const words = text.split(/ /g);
-    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words"><span class="text-wrapper"><span class="parts"></div>`);
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words${className ? ' '+className : ''}"><span class="text-wrapper"><span class="parts"></div>`);
     words.map(i => {
         element.querySelector('.parts').append(toDOM(`<span class="part">${i}</span>`));
     });
     return element;
+};
+
+/**
+ * Wrap a text, word by word, in a usable markup for scrambling
+ * Wants a text
+ * Returns a DOM element (tree)
+ *
+ * @param text
+ * @returns {ChildNode}
+ */
+window.createScrambleWordsQuestion = text => {
+    const words = text.split(/ /g);
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words question"><span class="text-wrapper"><span class="parts"></div>`);
+    words.map(i => {
+        element.querySelector('.parts').append(toDOM(`<span class="part">${i}</span>`));
+    });
+    return element;
+};
+
+
+window.randomInt = (min,max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 };

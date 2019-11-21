@@ -1,0 +1,52 @@
+.answers {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+
+    .scramble {
+        position: relative;
+        font-size: $fs-huge;
+        margin: auto;
+        text-align: center;
+        overflow: hidden;
+        min-width: 20%;
+        max-width: 70%;
+
+        &:before {
+            position: absolute;
+            overflow: hidden;
+            left: 0;
+            top: 20px;
+            content: attr(data-index);
+            font-weight: 200;
+            width: 40px;
+            line-height: 45px;
+            text-align: center;
+            border: 1px solid $color-highlight-higher;
+            border-radius: 5px;
+            font-size: $fs-xl;
+        }
+
+        .text-wrapper {
+            position: relative;
+            display: inline-block;
+            padding-top: 0.2em;
+            padding-right: 0.05em;
+            padding-bottom: 0.1em;
+            overflow: hidden;
+
+            .part {
+                display: inline-block;
+                line-height: 1em;
+                font-weight: 900;
+            }
+        }
+
+        &.scramble-words {
+            .part {
+                margin-right: 10px;
+            }
+        }
+    }
+
+}

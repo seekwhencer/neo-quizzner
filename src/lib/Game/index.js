@@ -40,7 +40,7 @@ export default class extends Module {
                 //    this.setup = setup;
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
-                    categories: ['Frontend', 'Universum'],
+                    categories: ['Natur', 'Universum'],
                     rounds: 12
                 };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
@@ -89,19 +89,57 @@ export default class extends Module {
     }
 
     ask(index) {
-        this.players.lock(true);
         return new Promise(resolve => {
             console.log('>>>>>> ASKING', index + 1, `(${index})`, 'OF', this.setup.rounds);
+            this.players.lock(true);
+            this.getRandomCategory();
+            this.getRandomQuestion();
+
             this
                 .text(`${_('game.round')} ${index + 1}`)
                 .then(() => {
-                    // @TODO start here the timeout and the visual counter
+                    return this.textQuestion(); // the question !!!!!!!!!1111
+                })
+                .then(() => {  // the anwers !!!!
+                    return this.textAnswers();
+                })
+                .then(() => {
                     this.players.unlock();
-                    this.on('hit', () => resolve());
-                    this.on('correct', () => resolve());
+                    //this.on('buzzer', () => resolve());
                     this.on('wrong', () => resolve());
+                    this.on('correct', () => {
+                        this.away().then(() => {
+                            resolve();
+                        });
+                    });
                 });
         });
+    }
+
+    away() {
+        const animation = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                delay: 2000
+            })
+            .add({
+                targets: `[data-scramble="title"] .part`,
+                opacity: 0,
+                filter: 'blur(10px)',
+                translateZ: 0,
+                duration: 500,
+                delay: (el, i) => 50 * i,
+                changeComplete: () => {
+                    if (document.querySelector('[data-scramble="title"]')) {
+                        document.querySelector('[data-scramble="title"]').remove();
+                        document.querySelector('.answers').remove();
+                    }
+                }
+            });
+
+        return animation.finished;
     }
 
     finish() {
@@ -120,7 +158,7 @@ export default class extends Module {
         console.log('>>> !!! <<<', player.name);
     }
 
-    text(text, stay) {
+    text(text, stay, className) {
         const target = createScrambleWords(text);
         document.querySelector('body').append(target);
 
@@ -130,7 +168,7 @@ export default class extends Module {
                 loop: false
             })
             .add({
-                targets: '[data-scramble="title"] .part',
+                targets: `[data-scramble="title"] .part${className ? ' .' + className : ''}`,
                 translateY: ["1.4em", 0],
                 translateZ: 0,
                 duration: 750,
@@ -142,7 +180,7 @@ export default class extends Module {
 
         if (!stay) {
             animation.add({
-                targets: '[data-scramble="title"] .part',
+                targets: `[data-scramble="title"] .part`,
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
@@ -156,9 +194,78 @@ export default class extends Module {
         return animation.finished;
     }
 
+    textQuestion() {
+        const text = this.question.text;
+        const className = 'question';
+        const target = createScrambleWords(text, className);
+        document.querySelector('body').append(target);
+
+        const animation = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,
+                translateY: ["1.4em", 0],
+                translateZ: 0,
+                duration: 750,
+                delay: (el, i) => 250 * i
+            })
+            .add({
+                targets: `[data-scramble]${className ? '.' + className : ''}`,
+                translateY: [0, -150],
+                duration: 500,
+                delay: (el, i) => 50 * i
+            });
+
+        return animation.finished;
+    }
+
+    textAnswers() {
+        const className = 'answers';
+        const target = toDOM('<div class="answers"></div>');
+        this.question.answer.map((i, index) => {
+            const question = createScrambleWords(i.text, className);
+            question.setAttribute('data-index', index + 1);
+            target.append(question);
+        });
+        document.querySelector('body').append(target);
+
+        const animation = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                delay: 0
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,
+                translateY: ["1.4em", 0],
+                translateZ: 0,
+                duration: 750,
+                delay: (el, i) => 250 * i
+            });
+
+        return animation.finished;
+    }
+
+    getRandomCategory() {
+        const rand = randomInt(0, this.setup.categories.length - 1);
+        const categoryName = this.setup.categories.filter((i, index) => index === rand)[0];
+        this.category = this.app.data.categories.items.filter(i => i.name === categoryName)[0];
+        console.log('>>> GET RANDOM CATEGORY', rand, this.setup.categories.length, this.category);
+    }
+
+    getRandomQuestion() {
+        const rand = randomInt(0, this.category.questions.length - 1);
+        this.question = this.category.questions.filter((i, index) => index === rand)[0];
+        console.log('>>> GET RANDOM QUESTION', rand, this.category.questions.length, this.question);
+    }
+
     get round() {
         return this._round;
     }
+
     set round(value) {
         this._round = value;
         this.rounds.setRound();

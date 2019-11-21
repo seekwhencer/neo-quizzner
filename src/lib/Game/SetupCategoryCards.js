@@ -99,7 +99,9 @@ export default class extends Module {
                 scale: [1, 1.4],
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 1000,
-                delay: (el, i) => 150 * i
+                delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo'
+
             })
             .add({
                 targets: '.category-card.active',
@@ -108,6 +110,7 @@ export default class extends Module {
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 2000,
                 delay: (el, i) => 500 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     this.setup.target.querySelector('.category-cards').remove();
                 }
@@ -119,6 +122,7 @@ export default class extends Module {
                 translateZ: 0,
                 duration: 10,
                 delay: (el, i) => 20 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     document.querySelector('[data-scramble="title"]').remove();
                 }
@@ -129,6 +133,7 @@ export default class extends Module {
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 1000,
                 delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     this.setup.target.querySelector('.buttons').remove();
                 }

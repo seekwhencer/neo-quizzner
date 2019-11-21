@@ -5,18 +5,19 @@
 
     .scramble {
         position: relative;
-        font-size: $fs-huge;
+        font-size: $fs-xxl;
         margin: auto;
-        text-align: center;
+        text-align: left;
         overflow: hidden;
         min-width: 20%;
-        max-width: 70%;
+        max-width: 60%;
+        padding-left: 70px;
 
         &:before {
             position: absolute;
             overflow: hidden;
             left: 0;
-            top: 20px;
+            top: 10px;
             content: attr(data-index);
             font-weight: 200;
             width: 40px;

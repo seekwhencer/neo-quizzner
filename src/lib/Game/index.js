@@ -1,3 +1,4 @@
+import {once} from 'events';
 import Module from '../../Module.js';
 import Setup from './Setup.js';
 import Players from './Players.js';
@@ -34,10 +35,11 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                //    return this.setup();
-                //})
-                //.then(setup => {
-                //    this.setup = setup;
+                /*    return this.setup();
+                })
+                .then(setup => {
+                    this.setup = setup;
+                */
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Natur', 'Universum'],
@@ -106,12 +108,27 @@ export default class extends Module {
                 .then(() => {
                     this.players.unlock();
                     //this.on('buzzer', () => resolve());
-                    this.on('wrong', () => resolve());
-                    this.on('correct', () => {
+
+                    // the wrong answer
+                    if (this.wrongListener)
+                        this.event.removeListener('wrong', this.wrongListener);
+
+                    this.wrongListener = number => {
+                        console.log('>>> WRONG NUMBER', number, this.event);
+                    };
+                    this.on('wrong', this.wrongListener);
+
+                    // the correct answer
+                    if (this.correctListener)
+                        this.event.removeListener('correct', this.correctListener);
+
+                    this.correctListener = number => {
+                        console.log('>>> CORRECT NUMBER', number, this.event);
                         this.away().then(() => {
                             resolve();
                         });
-                    });
+                    };
+                    this.on('correct', this.correctListener);
                 });
         });
     }

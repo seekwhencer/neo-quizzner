@@ -83,6 +83,7 @@ export default class extends Module {
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 1000,
                 delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     this.setup.target.querySelector('.round-cards').remove();
                 }
@@ -93,6 +94,7 @@ export default class extends Module {
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 1000,
                 delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     this.setup.target.querySelector('.buttons').remove();
                 }
@@ -104,6 +106,7 @@ export default class extends Module {
                 translateZ: 0,
                 duration: 1000,
                 delay: (el, i) => 20 * i,
+                easing: 'easeOutExpo',
                 changeComplete: () => {
                     document.querySelector('[data-scramble="title"]').remove();
                 }

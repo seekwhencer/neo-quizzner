@@ -53,22 +53,22 @@ export default class extends Module {
 
     buzzer(e) {
         if (this.locked === false) {
-            const player = this.items.filter(i => i.key === e.key)[0];
-            if (!player)
+            this.player = this.items.filter(i => i.key === e.key)[0];
+            if (!this.player)
                 return;
 
-            player.buzzer(); // the buzzer is locking
+            this.player.buzzer(); // the buzzer is locking
         }
     }
 
     number(e) {
         if (Number.isInteger(e.key * 1)) {
             console.log('>> NUMBER', e.key);
-            const player = this.items.filter(i => i.active)[0];
-            if (!player)
+            this.player = this.items.filter(i => i.active)[0];
+            if (!this.player)
                 return;
 
-            player.answer(e.key);
+            this.player.answer(e.key);
         }
     }
 

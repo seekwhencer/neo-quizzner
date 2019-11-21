@@ -49,9 +49,12 @@ export default class extends Module {
         if (!this.number)
             this.number = number;
 
-        // @TODO CORRECTNESS CHECK HERE
-        this.players.game.emit('correct', this);
-        console.log('>>>', this.label, this.name, 'ANSWERS:', number);
+        if (this.players.game.question.answer[this.number - 1].correct === true) {
+            this.players.game.emit('correct', number);
+        } else {
+            this.players.game.emit('wrong', number);
+        }
+        console.log('>>>', this.label, this.name, 'ANSWERS:', number, this.players.game.question);
     }
 
     set active(val) {

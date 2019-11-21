@@ -1,5 +1,4 @@
 import Module from '../../Module.js';
-import AnimeJS from 'animejs';
 import IntroTemplate from './templates/intro.html';
 import CategoryTemplate from './templates/category.html';
 

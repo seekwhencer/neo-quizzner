@@ -30,8 +30,7 @@ export default class extends Module {
     }
 
     new() {
-        return this
-            .wait(2000)
+        return wait(2000)
             .then(() => {
                 //    return this.setup();
                 //})
@@ -40,7 +39,7 @@ export default class extends Module {
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Frontend', 'Universum'],
-                    rounds: 12
+                    rounds: 2
                 };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
@@ -57,7 +56,7 @@ export default class extends Module {
         return new Setup(this);
     }
 
-    run(){
+    run() {
         return this.oneRound();
     }
 
@@ -66,7 +65,7 @@ export default class extends Module {
             index = 0;
 
         if (index === this.setup.rounds) {
-            return Promise.resolve();
+            return this.finish();
         }
         return this.ask(index).then(() => {
             return this.oneRound(index + 1);
@@ -76,16 +75,28 @@ export default class extends Module {
     ask(index) {
         return new Promise(resolve => {
             console.log('>>>>>> ASKED', index, this.setup.rounds);
-            setTimeout(() => resolve(), 1000);
+            this.text(`${_('game.round')} ${index + 1}`)
+                .then(() => {
+                    resolve();
+                });
+        });
+    }
+
+    finish() {
+        return new Promise(resolve => {
+            console.log('>>>>>> FINISHED', this.setup.rounds);
+            // @TODO make another, fancier end animation
+            this.text(`${_('game.finish')}`)
+                .then(() => {
+                    resolve();
+                });
         });
     }
 
     text(text, stay) {
-        const target = toDOM(`<div data-scramble="title"></div>`);
+        const target = createScramble(text);
         document.querySelector('body').append(target);
-        target.innerHTML = (`<span class="text-wrapper"><span class="letters">${text}</span></span>`);
-        const textWrapper = target.querySelector('.letters');
-        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
         const readDelay = text.length * 150;
         const animation = this.app.anime
             .timeline({
@@ -116,13 +127,5 @@ export default class extends Module {
             });
         }
         return animation.finished;
-    }
-
-    wait(ms) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve();
-            }, ms);
-        });
     }
 }

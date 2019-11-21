@@ -27,12 +27,12 @@ export default class extends Module {
 
             this
                 .wait(2000)
-                .then(() => {
+                /*.then(() => {
                     return this.hello();
                 })
                 .then(() => {
                     return this.prepare();
-                })
+                })*/
                 .then(() => {
                     return this.chosePlayers();
                 })
@@ -48,13 +48,10 @@ export default class extends Module {
         });
     }
 
-    // the scrambling text
     text(text, stay) {
-        const target = toDOM(`<div data-scramble="title"></div>`);
-        this.target.append(target);
-        target.innerHTML = (`<span class="text-wrapper"><span class="letters">${text}</span></span>`);
-        const textWrapper = target.querySelector('.letters');
-        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+        const target = createScramble(text);
+        document.querySelector('body').append(target);
+
         const readDelay = text.length * 150;
         const animation = this.app.anime
             .timeline({

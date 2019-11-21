@@ -7,7 +7,7 @@ body, html {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: $color-foreground;
+    background: linear-gradient(0deg, $color-deep 0%, $color-foreground 100%);
     color: $color-high;
     overflow: hidden;
 }

@@ -10,8 +10,6 @@
         position: relative;
         display: inline-block;
         width: calc(25% - 46px);
-        border-radius: 125px 125px 0 0;
-        border: 3px solid $color-chalk;
         border-bottom: none;
         overflow: hidden;
         opacity: 1;
@@ -19,7 +17,7 @@
         text-align: center;
         background: $color-foreground;
 
-        transition-property: background, box-shadow, border-radius;
+        transition-property: background, box-shadow;
         transition-duration: .5s;
         transition-timing-function: ease-in-out;
 

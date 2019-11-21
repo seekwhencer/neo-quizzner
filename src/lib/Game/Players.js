@@ -51,26 +51,32 @@ export default class extends Module {
     }
 
     keypress(e) {
-        this.timeout ? clearTimeout(this.timeout) : false;
-        this.timeout = setTimeout(() => {
-            this.unlock();
-        }, this.locked_ms);
-
         if (this.locked === false) {
             const player = this.items.filter(i => i.key === e.key)[0];
             if (!player)
                 return;
 
-            this.lock();
             player.hit();
         }
     }
 
-    lock(){
+    lock(stay) {
+        if (this.locked === true)
+            return;
+
         this.locked = true;
+
+        if (stay === true)
+            return;
+
+        this.timeout ? clearTimeout(this.timeout) : null;
+        this.timeout = setTimeout(() => {
+            this.unlock();
+        }, this.locked_ms);
     }
 
-    unlock(){
+    unlock() {
         this.locked = false;
+        this.items.map(player => player.blur());
     }
 }

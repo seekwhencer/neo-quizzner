@@ -2,19 +2,24 @@
  
 ![alt text](../master/public/screenshots/neo-quizzner_01.png?raw=true "Neofonie Quizzner #1")
 
+This is a simple and pure javascript quiz-machine. Written in ECMA Script.  
+Feed the quizzner with csv web exports from google sheets. 
+
 ## Usage
 
 #### 1. install
 
+Node 12 needed.
+
 ```
-git clone https://github.com/....
+git clone https://github.com/seekwhencer/neo-quizzner.git
 cd neo-quizzner
 npm install
 ```
 
 #### 2. start local dev server
 
-Open the url: **[http://localhost:9000](http://localhost:9000)**
+Open the url: **[http://localhost:8000](http://localhost:8000)**
 
 ```
 npm run dev

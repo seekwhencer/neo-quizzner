@@ -103,7 +103,6 @@ export default class extends Module {
                 duration: 1000,
                 delay: (el, i) => 150 * i,
                 easing: 'easeInOutExpo'
-
             });
 
         const animationB = this.app.anime

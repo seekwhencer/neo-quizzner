@@ -23,12 +23,46 @@ export default class extends Module {
             this.maxElement = this.target.querySelector('.game-rounds-max');
             this.maxElement.innerHTML = this.game.setup.rounds;
 
+            const animationA = this.app.anime
+                .timeline({
+                    loop: false
+                })
+                .add({
+                    targets: '.game-rounds',
+                    translateX: [-300, 0],
+                    filter: ['blur(10px)', 'blur(0px)'],
+                    duration: 1000,
+                    delay: (el, i) => 150 * i,
+                    easing: 'easeInOutExpo'
+                });
+
+            this.game.on('buzzer', () => this.buzzOn());
+
+
             this.emit('ready');
         });
     }
 
     setRound() {
         this.actualElement.innerHTML = this.game.round + 1;
+    }
+
+    buzzOn(){
+        this.buzzed = true;
+    }
+
+    buzzOff(){
+        this.buzzed = false;
+    }
+
+    set buzzed(val) {
+        this._buzzed = val;
+        if (this.target)
+            this.buzzed ? this.target.classList.add('buzzed') : this.target.classList.remove('buzzed');
+    }
+
+    get buzzed() {
+        return this._buzzed;
     }
 
 

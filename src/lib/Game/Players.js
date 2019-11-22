@@ -58,7 +58,7 @@ export default class extends Module {
             if (!this.player)
                 return;
 
-            this.player.buzzer(); // the buzzer is locking
+            this.player.buzzer();
         }
     }
 
@@ -91,6 +91,7 @@ export default class extends Module {
     unlock() {
         this.locked = false;
         this.items.map(player => player.blur());
+        this.game.rounds.buzzOff();
     }
 
     unlockPlayers() {

@@ -79,8 +79,10 @@ export default class extends Module {
             answer.classList.add('wrong');
             this.lock();
             this.score = this.score - this.players.fails * this.scoring.wrong;
-            setTimeout(() => answer.classList.remove('active', 'wrong'), 2000);
-            setTimeout(() => this.players.game.emit('wrong', number), 2000);
+            setTimeout(() => {
+                answer.classList.remove('active', 'wrong');
+                this.players.game.emit('wrong', number);
+            }, 2000);
         }
         console.log('>>>', this.label, this.name, 'ANSWERS:', number, this.players.game.question);
     }

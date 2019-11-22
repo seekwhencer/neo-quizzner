@@ -87,7 +87,42 @@ export default class extends Module {
     }
 
     away() {
-        const animation = this.app.anime
+        const animationA = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '[data-scramble="title"] .part',
+                opacity: 0,
+                filter: 'blur(10px)',
+                translateZ: 0,
+                duration: 10,
+                easing: 'easeInOutExpo',
+                delay: (el, i) => 20 * i,
+                changeComplete: () => {
+                    if (document.querySelector('[data-scramble="title"]'))
+                       document.querySelector('[data-scramble="title"]').remove();
+                }
+            });
+
+        const animationB = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '.buttons',
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                easing: 'easeInOutExpo',
+                changeComplete: () => {
+                    if (this.setup.target.querySelector('.buttons'))
+                        this.setup.target.querySelector('.buttons').remove();
+                }
+            });
+
+        const animationC = this.app.anime
             .timeline({
                 loop: false
             })
@@ -96,39 +131,20 @@ export default class extends Module {
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
-                duration: 10,
+                duration: 1000,
+                easing: 'easeInOutExpo',
                 delay: (el, i) => 100 * i,
                 changeComplete: () => {
-                    console.log('>>> WTF', this.setup.target);
                     if (this.setup.target.querySelector('.player-cards'))
                         this.setup.target.querySelector('.player-cards').remove();
                 }
-            })
-            .add({
-                targets: '.buttons',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 100 * i,
-                changeComplete: () => {
-                    if (this.setup.target.querySelector('.buttons'))
-                        this.setup.target.querySelector('.buttons').remove();
-                }
-            })
-            .add({
-                targets: '[data-scramble="title"] .part',
-                opacity: 0,
-                filter: 'blur(10px)',
-                translateZ: 0,
-                duration: 10,
-                delay: (el, i) => 20 * i,
-                changeComplete: () => {
-                    if (document.querySelector('[data-scramble="title"]'))
-                       document.querySelector('[data-scramble="title"]').remove();
-                }
             });
 
-        return animation.finished;
+        return Promise.all([
+            animationA.finished,
+            animationB.finished,
+            animationC.finished
+        ]);
+
     }
 }

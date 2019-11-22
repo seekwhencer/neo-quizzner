@@ -34,17 +34,17 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                return this.setup();
+           /*     return this.setup();
             })
             .then(setup => {
                 this.setup = setup;
-                /*
+             */
                             this.setup = {
                                 players: ['Matze', 'Horst', 'Marie', 'Holger'],
                                 categories: ['Natur'],
                                 rounds: 12
                             };
-            */
+
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -108,7 +108,6 @@ export default class extends Module {
                 })
                 .then(() => {
                     this.players.unlock();
-                    //this.on('buzzer', () => resolve());
 
                     // the wrong answer
                     if (this.wrongListener)

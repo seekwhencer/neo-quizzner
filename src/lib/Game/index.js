@@ -34,16 +34,17 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                /*    return this.setup();
-                })
-                .then(setup => {
-                    this.setup = setup;
-    */
-                this.setup = {
-                    players: ['Matze', 'Horst', 'Marie', 'Holger'],
-                    categories: ['Natur'],
-                    rounds: 12
-                };
+                return this.setup();
+            })
+            .then(setup => {
+                this.setup = setup;
+                /*
+                            this.setup = {
+                                players: ['Matze', 'Horst', 'Marie', 'Holger'],
+                                categories: ['Natur'],
+                                rounds: 12
+                            };
+            */
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -258,7 +259,7 @@ export default class extends Module {
             })
             .add({
                 targets: `[data-scramble="title"]${className ? '.' + className : ''}`,
-                filter: ['blur(12px)','blur(0)'],
+                filter: ['blur(12px)', 'blur(0)'],
                 duration: 750,
                 delay: (el, i) => 250 * i
             })

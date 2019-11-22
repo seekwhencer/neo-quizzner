@@ -230,7 +230,7 @@ export default class extends Module {
             })
             .add({
                 targets: `[data-scramble]${className ? '.' + className : ''}`,
-                translateY: [0, -150],
+                translateY: [0, -170],
                 duration: 500,
                 delay: (el, i) => 50 * i
             });

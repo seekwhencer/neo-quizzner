@@ -1,3 +1,18 @@
+.scramble {
+    &.question {
+
+        .text-wrapper {
+            width: 60%;
+        }
+
+        .part-wrapper {
+            overflow: hidden;
+            display: inline-block;
+            padding-top: 15px;
+        }
+    }
+}
+
 .answers {
     position: absolute;
     top: 35%;

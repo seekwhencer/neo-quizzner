@@ -69,13 +69,26 @@
             border-color: $color-matte-darkest;
             transform: scale(1.2);
             transform-origin: left;
+            color: $color-green;
 
             &:before {
-                background-color: $color-green;
+                color: $color-green-dark;
+                background-color: $color-green-dark;
                 transform: scale(1.2);
-                font-weight: 900;
                 box-shadow: 0 0 50px $color-green;
                 transition: all 0.05s ease-in-out;
+            }
+        }
+
+        &.wrong {
+            .part {
+                color: $color-primary;
+            }
+
+            &:before {
+                color: $color-primary-dark;
+                background-color: $color-primary-dark;
+                box-shadow: 0 0 50px $color-primary;
             }
         }
     }

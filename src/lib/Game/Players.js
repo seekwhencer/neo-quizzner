@@ -11,6 +11,7 @@ export default class extends Module {
             this.app = this.game.app;
             this.locked = false;
             this.locked_ms = 3000;
+            this.selectedAnswerIndex = false;
 
             console.log(this.label, '>>> INIT');
 

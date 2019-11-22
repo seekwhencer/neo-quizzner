@@ -13,6 +13,7 @@ export default class extends Module {
         this.key = this.keys[this.index];
         this.timeout = false;
         this.locked_ms = 3000;
+        this.event_delay = 3000;
 
         console.log(this.label, '>>> INIT', this.name);
 
@@ -43,20 +44,28 @@ export default class extends Module {
     }
 
     answer(number) {
-        //if (this.number)
-        //    return;
+        if (this.number)
+            return;
+
+        if (number > this.players.game.question.answer.length)
+            return;
 
         if (!this.number)
             this.number = number;
 
+        setTimeout(() => {
+            this.number = false;
+        }, this.event_delay);
+
         const answer = document.querySelectorAll(`.answers .answer`)[number - 1];
         answer.classList.add('active');
-        setTimeout(() => answer.classList.remove('active'), 2000);
 
         if (this.players.game.question.answer[this.number - 1].correct === true) {
-            this.players.game.emit('correct', number);
+            setTimeout(() => this.players.game.emit('correct', number), this.event_delay);
         } else {
-            this.players.game.emit('wrong', number);
+            answer.classList.add('wrong');
+            setTimeout(() => answer.classList.remove('active', 'wrong'), 2000);
+            setTimeout(() => this.players.game.emit('wrong', number), 2000);
         }
         console.log('>>>', this.label, this.name, 'ANSWERS:', number, this.players.game.question);
     }

@@ -1,21 +1,21 @@
 language: node_js
 node_js:
-    - '12'
+- '12'
 install:
-    - npm install
-    - npm run build
+- npm install
+- npm run build
 after_install:
-    - ls -l
-    - cd ..
+- ls -l
+- cd ..
 deploy:
-    provider: pages
-    skip_cleanup: true
-    github_token: "$GITHUB_TOKEN"
-    keep_history: true
-    target_branch: gh-pages
-    local_dir: docs
-    on:
-        branch: master
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  keep_history: true
+  target_branch: gh-pages
+  local_dir: docs
+  on:
+    branch: master
 env:
-    global:
-        secure: fdRLyx3xXMsknO2HA7gffQIcPlzLoisaeaXCtbHaaIK1Wpj51ZCZZol3CMF0OA4DC5CDa1lwVEZGRJAuCZxfTB3wIEdpDXFZhM8dSoN/e0jsGc/Yri9d9jpuunjDBh8fI7gFUy/YMzxsihjbVVx4b9ib564xxiBXk47BNj0pQPNXZMdjd7tImpBaU7T4opuxUiUlb2wQlJ1e0iEcoKyOPeit8E4Nf63NHFoxVylCqGyxMJR+Lln5lBptwY0pJlMms7TT9kUBdhuCiNL9UxsGzzAoRxGFCsJFoqwnpS11CiGB2UO/c6aZA30Zrvsep/keCerOsE0OqQlQIr4FHFy7vLX9m5lCuLtRHlswSAOFN6zEAqhT7TJYDNZq/KGfTq4xzCq5iNnjuivQkcbxcnUZrqNwXPLvTnB+joSHCe1miToEUfMi6fCtRs8HcslV9g3GKXSex4IbcJDUXI30+r+D4Vm+72KVlGGAzJO3DhTKRzPTL3FSxGzAdb+ifZ52NCscrfYBBkAYWrTdRFtgi3oVuQqtpq9jDxP56xrb5OUJe1OidKuVYGeZUwtc1o6EJw+fMaGWbpZBXjxtsL34dUs8xZHDCs6ay9bba0Fpapx1YaBpiUVflPi5ZOWIt//mfQLn2b2lEyMm0T/LJXbg04FjwS5fsWYMc40p8oZ79NwvUjA=
+  global:
+    secure: PWP1LmhgUzTuaff19Z5Q6TF4je8N2g/CArq0pixw92lJQlAgyWutiSKaAgcjM9+EaJdbeVmnKx8Z0qFjX/4Gs3cub4+rSX81qAhEHCkG4YkbrLRmWCdr/JZ20U/kglZFkTskS2FAKk357pLT9u79+D9YFabhzqN23sdlXwJMy3ZriZUJtUNLHs63ThjqSDCLD5+MW7nuj8sbw/M8FEXS32Iv0DTX+gh+QFOu7RlIvO1A4/N/lQ+5UI/vCRnlybcdEctoIFtzRVPgZfaZukFoPi+aiDTpCcaMV/8QHAwi9C4p6a8yPHqNi4xaoH10sjbzwxoGToc5y0hW9ejmMa7E1DYBsUKfs4D8XeKWgerarLB6NhjLdCbfP385G91GuURoqbdKquwp5FQG8bq9o+Yjpg/s3YTXHD874cHq8HU6AQJLOU5pInWTVrrbMjEcKnhUK7eNHkSMN3yq8N8qCPNwzBebUNFv7BdFm9XhxBAVon5TBrHWOFnDauQHpljEOsh2LR35/rIDVYwsQeUlxXru+AYiaYiEEB1NNBn+MyBWFDYXoMfr29iJbU+HFAH4dFnYJ/VV5EHV0hs+hbWRv12EQFTCqQkuoLRjAlKxkkhZY0mzgepyCcmb2aRhA4QtXeoegKQhwCVFEMRR20WCw4m/bh7qiNOjwsFJ0zb6K2kd/og=

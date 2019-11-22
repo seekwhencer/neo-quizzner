@@ -36,7 +36,7 @@ npm run build
 The Difference between the `/dist` and the `/docs` folder are the different url paths in the css files.
 The `/docs` folder is only for github pages.
 
-## The Date from Google Sheets
+## The CSV Data from Google Sheets
 - go to google sheets (Tabellen) and create a new one
 - use the first tab (is selected on the bottom of the editor) for the category and tab index.
 The index has three columns: `category label`, `tab url` and a `description` 

@@ -27,12 +27,12 @@ export default class extends Module {
 
             this
                 .wait(2000)
-                /*.then(() => {
+                .then(() => {
                     return this.hello();
                 })
                 .then(() => {
                     return this.prepare();
-                })*/
+                })
                 .then(() => {
                     return this.chosePlayers();
                 })

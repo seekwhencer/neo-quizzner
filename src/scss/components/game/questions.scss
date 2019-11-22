@@ -1,7 +1,16 @@
 .answers {
     position: absolute;
-    top: 30%;
+    top: 35%;
     width: 100%;
+    transition: all 1s ease-in-out;
+    opacity: 1;
+
+
+    &.away {
+        transition: all 1s 1s ease-in-out;
+        opacity: 0;
+        filter: blur(12px);
+    }
 
     .scramble {
         position: relative;
@@ -11,12 +20,17 @@
         overflow: hidden;
         min-width: 20%;
         max-width: 60%;
-        padding-left: 70px;
+        padding-left: 80px;
+        overflow: inherit;
+        transform-origin: left;
+        transition: all 0.2s ease-in-out;
+        filter: blur(12px);
+
 
         &:before {
             position: absolute;
             overflow: hidden;
-            left: 0;
+            left: 10px;
             top: 10px;
             content: attr(data-index);
             font-weight: 200;
@@ -26,6 +40,7 @@
             border: 1px solid $color-highlight-higher;
             border-radius: 5px;
             font-size: $fs-xl;
+            transition: all 0.2s ease-in-out;
         }
 
         .text-wrapper {
@@ -46,6 +61,21 @@
         &.scramble-words {
             .part {
                 margin-right: 10px;
+            }
+        }
+
+        &.active {
+            transition: all 0.05s ease-in-out;
+            border-color: $color-matte-darkest;
+            transform: scale(1.2);
+            transform-origin: left;
+
+            &:before {
+                background-color: $color-green;
+                transform: scale(1.2);
+                font-weight: 900;
+                box-shadow: 0 0 50px $color-green;
+                transition: all 0.05s ease-in-out;
             }
         }
     }

@@ -38,7 +38,7 @@ export default class extends Module {
                 })
                 .then(setup => {
                     this.setup = setup;
-                */
+    */
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
                     categories: ['Natur', 'Universum'],
@@ -133,6 +133,7 @@ export default class extends Module {
     }
 
     away() {
+        document.querySelector('.answers').classList.add('away');
         const animation = this.app.anime
             .timeline({
                 loop: false
@@ -238,7 +239,7 @@ export default class extends Module {
     }
 
     textAnswers() {
-        const className = 'answers';
+        const className = 'answer';
         const target = toDOM('<div class="answers"></div>');
         this.question.answer.map((i, index) => {
             const question = createScrambleWords(i.text, className);
@@ -253,6 +254,12 @@ export default class extends Module {
             })
             .add({
                 delay: 0
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''}`,
+                filter: ['blur(12px)','blur(0)'],
+                duration: 750,
+                delay: (el, i) => 250 * i
             })
             .add({
                 targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,

@@ -43,11 +43,15 @@ export default class extends Module {
     }
 
     answer(number) {
-        if (this.number)
-            return;
+        //if (this.number)
+        //    return;
 
         if (!this.number)
             this.number = number;
+
+        const answer = document.querySelectorAll(`.answers .answer`)[number - 1];
+        answer.classList.add('active');
+        setTimeout(() => answer.classList.remove('active'), 2000);
 
         if (this.players.game.question.answer[this.number - 1].correct === true) {
             this.players.game.emit('correct', number);

@@ -95,6 +95,7 @@ export default class extends Module {
             this.players.lock(true);
             this.getRandomCategory();
             this.getRandomQuestion();
+            this.players.unlockPlayers();
 
             this
                 .text(`${_('game.round')} ${index + 1}`)

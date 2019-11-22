@@ -30,4 +30,6 @@ export default class extends Module {
     setRound() {
         this.actualElement.innerHTML = this.game.round + 1;
     }
+
+
 }

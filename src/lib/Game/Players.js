@@ -92,4 +92,8 @@ export default class extends Module {
         this.locked = false;
         this.items.map(player => player.blur());
     }
+
+    unlockPlayers() {
+        this.items.map(player => player.unlock());
+    }
 }

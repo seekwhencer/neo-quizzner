@@ -34,6 +34,9 @@ export default class extends Module {
 
     buzzer() {
         console.log('>>>', this.label, 'BUZZER', this.name);
+        if (this.locked)
+            return;
+
         this.active = true;
         this.players.lock();
         this.players.game.emit('buzzer', this);
@@ -64,10 +67,19 @@ export default class extends Module {
             setTimeout(() => this.players.game.emit('correct', number), this.event_delay);
         } else {
             answer.classList.add('wrong');
+            this.lock();
             setTimeout(() => answer.classList.remove('active', 'wrong'), 2000);
             setTimeout(() => this.players.game.emit('wrong', number), 2000);
         }
         console.log('>>>', this.label, this.name, 'ANSWERS:', number, this.players.game.question);
+    }
+
+    lock() {
+        this.locked = true;
+    }
+
+    unlock() {
+        this.locked = false;
     }
 
     set active(val) {
@@ -79,4 +91,15 @@ export default class extends Module {
     get active() {
         return this._active;
     }
+
+    set locked(val) {
+        this._locked = val;
+        this.locked ? this.target.classList.add('locked') : this.target.classList.remove('locked');
+    }
+
+    get locked() {
+        return this._locked;
+    }
+
+
 }

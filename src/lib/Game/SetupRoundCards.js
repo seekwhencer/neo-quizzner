@@ -72,32 +72,9 @@ export default class extends Module {
     }
 
     away() {
-        const animation = this.app.anime
+        const animationA = this.app.anime
             .timeline({
                 loop: false
-            })
-            .add({
-                targets: '.round-card',
-                opacity: [1, 0],
-                scale: [1, 5],
-                filter: ['blur(0px)', 'blur(10px)'],
-                duration: 1000,
-                delay: (el, i) => 150 * i,
-                easing: 'easeOutExpo',
-                changeComplete: () => {
-                    this.setup.target.querySelector('.round-cards').remove();
-                }
-            })
-            .add({
-                targets: '.buttons',
-                opacity: [1, 0],
-                filter: ['blur(0px)', 'blur(10px)'],
-                duration: 1000,
-                delay: (el, i) => 150 * i,
-                easing: 'easeOutExpo',
-                changeComplete: () => {
-                    this.setup.target.querySelector('.buttons').remove();
-                }
             })
             .add({
                 targets: '[data-scramble="title"] .part',
@@ -112,6 +89,44 @@ export default class extends Module {
                 }
             });
 
-        return animation.finished;
+        const animationB = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '.round-card',
+                opacity: [1, 0],
+                scale: [1, 5],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo',
+                changeComplete: () => {
+                    this.setup.target.querySelector('.round-cards').remove();
+                }
+            });
+
+        const animationC = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '.buttons',
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                easing: 'easeOutExpo',
+                changeComplete: () => {
+                    this.setup.target.querySelector('.buttons').remove();
+                }
+            });
+
+        return Promise.all([
+            animationA.finished,
+            animationB.finished,
+            animationC.finished
+        ]);
+
     }
 }

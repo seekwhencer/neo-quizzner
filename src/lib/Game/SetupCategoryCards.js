@@ -89,7 +89,7 @@ export default class extends Module {
     }
 
     away() {
-        const animation = this.app.anime
+        const animationA = this.app.anime
             .timeline({
                 loop: false
             })
@@ -97,23 +97,40 @@ export default class extends Module {
                 targets: '.category-card:not(.active)',
                 opacity: [1, 0],
                 scale: [1, 1.4],
+                translateX: () => randomInt(-100, 100),
+                translateY: () => randomInt(-100, 100),
                 filter: ['blur(0px)', 'blur(10px)'],
                 duration: 1000,
                 delay: (el, i) => 150 * i,
-                easing: 'easeOutExpo'
+                easing: 'easeInOutExpo'
 
+            });
+
+        const animationB = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                delay:1000
             })
             .add({
                 targets: '.category-card.active',
                 opacity: [1, 0],
-                scale: [1, 1.4],
+                scale: [1, 3],
                 filter: ['blur(0px)', 'blur(10px)'],
-                duration: 2000,
-                delay: (el, i) => 500 * i,
-                easing: 'easeOutExpo',
+                translateX: () => randomInt(-100, 100),
+                translateY: () => randomInt(-100, 100),
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                easing: 'easeInOutExpo',
                 changeComplete: () => {
                     this.setup.target.querySelector('.category-cards').remove();
                 }
+            });
+
+        const animationC = this.app.anime
+            .timeline({
+                loop: false
             })
             .add({
                 targets: '[data-scramble="title"] .part',
@@ -139,6 +156,12 @@ export default class extends Module {
                 }
             });
 
-        return animation.finished;
+        return Promise.all([
+            animationA.finished,
+            animationB.finished,
+            animationC.finished
+        ]);
+
+//        return animationA.finished;
     }
 }

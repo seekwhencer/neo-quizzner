@@ -28,13 +28,24 @@ export default class extends Module {
 
         return this.fetch(this.url)
             .then(csvData => {
-                let rows = csvData.split(/\n/);
+
+                let csvReplaced = csvData;
+                const matches = csvData.match(new RegExp(/"([^"]+)"/gi));
+                if (matches)
+                    matches.map(match => {
+                        const replacedMatch = match.replace(/\n/gi, ' ').replace(/  /gi, ' ').replace(/,/gi, '####');
+                        csvReplaced = csvReplaced.replace(match, replacedMatch);
+                    });
+
+
+                let rows = csvReplaced.split(/\n/);
                 rows.shift(); // drop the first row, containing the titles (Frage, Antwort...)
+
                 const questions = rows.map(row => {
                     const match = row.match(new RegExp(/"([^"]+)"/gi));
                     if (match)
                         match.map(i => {
-                            const temp = i.replace(/,/gi, '####');
+                            const temp = i.replace(/\n/gi, '').replace(/,/gi, '####');
                             row = row.replace(i, temp);
                         });
 

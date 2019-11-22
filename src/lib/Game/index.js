@@ -41,7 +41,7 @@ export default class extends Module {
     */
                 this.setup = {
                     players: ['Matze', 'Horst', 'Marie', 'Holger'],
-                    categories: ['Natur', 'Universum'],
+                    categories: ['Natur'],
                     rounds: 12
                 };
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);

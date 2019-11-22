@@ -1,6 +1,5 @@
 .scramble {
     &.question {
-
         .text-wrapper {
             width: 60%;
         }
@@ -40,7 +39,6 @@
         transform-origin: left;
         transition: all 0.2s ease-in-out;
         filter: blur(12px);
-
 
         &:before {
             position: absolute;

@@ -11,7 +11,7 @@ export default class extends Module {
             this.app = this.game.app;
             this.locked = false;
             this.locked_ms = 3000;
-            this.selectedAnswerIndex = false;
+            this.fails = 0;
 
             console.log(this.label, '>>> INIT');
 
@@ -95,5 +95,10 @@ export default class extends Module {
 
     unlockPlayers() {
         this.items.map(player => player.unlock());
+        this.fails = 0;
+    }
+
+    fail() {
+        this.fails = this.fails + 1;
     }
 }

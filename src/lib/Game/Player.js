@@ -1,5 +1,6 @@
 import Module from '../../Module.js';
 import PlayerTemplate from './templates/Players/Player.html';
+import {CountUp} from 'countup.js';
 
 export default class extends Module {
     constructor(args) {
@@ -14,6 +15,13 @@ export default class extends Module {
         this.timeout = false;
         this.locked_ms = 3000;
         this.event_delay = 3000;
+        this.score = 0;
+
+        this.scoring = this.app.options.scoring || {
+            correct: 1000,
+            correctMinusPerFail: 200,
+            wrong: 500
+        };
 
         console.log(this.label, '>>> INIT', this.name);
 
@@ -28,6 +36,7 @@ export default class extends Module {
             }
         }));
         this.players.target.append(this.target);
+        this.scoreElement = this.target.querySelector('.game-player-score');
 
         this.emit('ready');
     }
@@ -64,10 +73,12 @@ export default class extends Module {
         answer.classList.add('active');
 
         if (this.players.game.question.answer[this.number - 1].correct === true) {
+            this.score = this.score + (this.scoring.correct - (this.players.fails * this.scoring.correctMinusPerFail));
             setTimeout(() => this.players.game.emit('correct', number), this.event_delay);
         } else {
             answer.classList.add('wrong');
             this.lock();
+            this.score = this.score - this.players.fails * this.scoring.wrong;
             setTimeout(() => answer.classList.remove('active', 'wrong'), 2000);
             setTimeout(() => this.players.game.emit('wrong', number), 2000);
         }
@@ -76,6 +87,7 @@ export default class extends Module {
 
     lock() {
         this.locked = true;
+        this.players.fail();
     }
 
     unlock() {
@@ -99,6 +111,21 @@ export default class extends Module {
 
     get locked() {
         return this._locked;
+    }
+
+    get score() {
+        return this._score;
+    }
+
+    set score(val) {
+        this._score = val;
+        //this.scoreElement ? this.scoreElement.innerHTML = this.score : null;
+        if (this.scoreElement) {
+            this.scoreCountUp = new CountUp(this.scoreElement, this.score, {
+                separator: '.'
+            });
+            this.scoreCountUp.start();
+        }
     }
 
 

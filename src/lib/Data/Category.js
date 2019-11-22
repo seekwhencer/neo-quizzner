@@ -33,10 +33,9 @@ export default class extends Module {
                 const matches = csvData.match(new RegExp(/"([^"]+)"/gi));
                 if (matches)
                     matches.map(match => {
-                        const replacedMatch = match.replace(/\n/gi, ' ').replace(/  /gi, ' ').replace(/,/gi, '####');
+                        const replacedMatch = match.replace(/\n/gi, ' ').replace(/ %s/gi, ' ').replace(/,/gi, '####');
                         csvReplaced = csvReplaced.replace(match, replacedMatch);
                     });
-
 
                 let rows = csvReplaced.split(/\n/);
                 rows.shift(); // drop the first row, containing the titles (Frage, Antwort...)

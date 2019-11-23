@@ -34,16 +34,14 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-           /*     return this.setup();
+                if(this.app.options.skipSetup){
+                    return Promise.resolve(this.app.options.setup);
+                } else{
+                    return this.setup();
+                }
             })
             .then(setup => {
                 this.setup = setup;
-             */
-                            this.setup = {
-                                players: ['Matze', 'Horst', 'Marie', 'Holger'],
-                                categories: ['Natur'],
-                                rounds: 12
-                            };
 
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));

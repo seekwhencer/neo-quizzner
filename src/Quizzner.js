@@ -16,6 +16,11 @@ export default class extends Module {
             this.label = 'QUIZZNER';
             this.options = args;
             this.options.language = this.options.language || 'de';
+            this.options.setup = this.options.setup || {
+                players: ['Matze', 'Horst', 'Marie', 'Holger'],
+                categories: ['Natur'],
+                rounds: 12
+            };
 
             this.on('ready', () => {
                 resolve(this);

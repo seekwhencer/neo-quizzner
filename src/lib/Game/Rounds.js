@@ -43,6 +43,21 @@ export default class extends Module {
         });
     }
 
+    away(){
+        const animationA = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '.game-rounds',
+                translateX: [0, -300],
+                filter: ['blur(0px)', 'blur(10px)'],
+                duration: 1000,
+                delay: (el, i) => 150 * i,
+                easing: 'easeInOutExpo'
+            });
+    }
+
     setRound() {
         this.actualElement.innerHTML = this.game.round + 1;
     }

@@ -10,12 +10,16 @@
             display: inline-block;
             padding: 15px 3px 7px 3px;
         }
+
+        .part {
+            line-height: 54px;
+        }
     }
 }
 
 .answers {
     position: absolute;
-    top: 33%;
+    top: 40%;
     width: 100%;
     transition: all 1s ease-in-out;
     opacity: 1;
@@ -74,7 +78,6 @@
 
             .part {
                 display: inline-block;
-                line-height: 1em;
                 font-weight: 900;
             }
         }

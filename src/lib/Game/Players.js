@@ -52,6 +52,27 @@ export default class extends Module {
         });
     }
 
+    away() {
+        const animation = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: '.game-players .game-player',
+                translateY: [0, 200],
+                duration: 500,
+                delay: (el, i) => 200 * i,
+                easing: 'easeInOutExpo',
+                changeComplete: () => {
+                    this.emit('ready');
+                }
+            });
+
+        return Promise.all([
+            animation.finished
+        ]);
+    }
+
     buzzer(e) {
         if (this.locked === false) {
             this.player = this.items.filter(i => i.key === e.key)[0];

@@ -34,15 +34,14 @@ export default class extends Module {
     new() {
         return wait(2000)
             .then(() => {
-                if(this.app.options.skipSetup){
+                if (this.app.options.skipSetup) {
                     return Promise.resolve(this.app.options.setup);
-                } else{
+                } else {
                     return this.setup();
                 }
             })
             .then(setup => {
                 this.setup = setup;
-
                 console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
                 return this.text(_('game.letsgo'));
             })
@@ -162,12 +161,34 @@ export default class extends Module {
         return new Promise(resolve => {
             console.log('>>>>>> FINISHED', this.setup.rounds);
             // @TODO make another, fancier end animation
+            this.rounds.away();
             this
                 .text(`${_('game.finish')}`)
+                .then(() => {
+                    return this.players.away();
+                })
+                .then(() => {
+                    return this.text(`${_('game.highscore')}`);
+                })
+                .then(() => {
+                    return this.highscore();
+                })
                 .then(() => {
                     resolve();
                 });
         });
+    }
+
+    highscore() {
+        /*const className = 'answer';
+        const target = toDOM('<div class="highscore"></div>');
+        this.question.answer.map((i, index) => {
+            const question = createScrambleWords(i.text, className);
+            question.setAttribute('data-index', index + 1);
+            target.append(question);
+        });
+        document.querySelector('body').append(target);*/
+        return Promise.resolve();
     }
 
     hit(player) {

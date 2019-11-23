@@ -18,10 +18,16 @@
 <script src="js/app.js"></script>
 <script type="module">
     const options = {
-        categoriesUrl : 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=2114668796&single=true&output=csv',
-        translationsUrl : 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=192674322&single=true&output=csv',
-        rounds: [12,24,36,48],
-        scoring : {
+        categoriesUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=2114668796&single=true&output=csv',
+        translationsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=192674322&single=true&output=csv',
+        rounds: [12, 24, 36, 48],
+        skipSetup: true,
+        setup: {
+            players: ['Matze', 'Horst', 'Marie', 'Holger'],
+            categories: ['Natur'],
+            rounds: 12
+        },
+        scoring: {
             correct: 1000,
             correctMinusPerFail: 200,
             wrong: 500

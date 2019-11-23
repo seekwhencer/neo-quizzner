@@ -65,9 +65,9 @@ window.createScrambleWords = (text, className) => {
  */
 window.createScrambleWordsQuestion = text => {
     const words = text.split(/ /g);
-    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words question"><span class="text-wrapper"><span class="parts"></div>`);
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words question"><span class="text-wrapper"><span class="parts"></span></span></div>`);
     words.map(i => {
-        element.querySelector('.parts').append(toDOM(`<span class="part">${i}</span>`));
+        element.querySelector('.parts').append(toDOM(`<span class="part-wrapper"><span class="part">${i}</span></span>`));
     });
     return element;
 };

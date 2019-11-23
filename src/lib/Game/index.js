@@ -249,18 +249,15 @@ export default class extends Module {
         });
         document.querySelector('body').append(target);
 
-        const animation = this.app.anime
+        const animationA = this.app.anime
             .timeline({
                 loop: false
             })
             .add({
-                delay: 0
-            })
-            .add({
                 targets: `[data-scramble="title"]${className ? '.' + className : ''}`,
                 filter: ['blur(12px)', 'blur(0)'],
-                duration: 750,
-                delay: (el, i) => 250 * i
+                duration: 250,
+                delay: (el, i) => 100 * i
             })
             .add({
                 targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,
@@ -270,7 +267,9 @@ export default class extends Module {
                 delay: (el, i) => 250 * i
             });
 
-        return animation.finished;
+        return Promise.all([
+            animationA.finished
+        ]);
     }
 
     getRandomCategory() {

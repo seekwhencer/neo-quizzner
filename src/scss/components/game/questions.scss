@@ -2,7 +2,7 @@
     &.question {
         .text-wrapper {
             width: 60%;
-            line-height: $fs-huge;
+            line-height: $fs-xxl;
         }
 
         .part-wrapper {
@@ -15,7 +15,7 @@
 
 .answers {
     position: absolute;
-    top: 35%;
+    top: 33%;
     width: 100%;
     transition: all 1s ease-in-out;
     opacity: 1;
@@ -45,7 +45,7 @@
             position: absolute;
             overflow: hidden;
             left: 10px;
-            top: 10px;
+            top: 20px;
             content: attr(data-index);
             font-weight: 200;
             width: 40px;
@@ -64,6 +64,13 @@
             padding-right: 0.05em;
             padding-bottom: 0.1em;
             overflow: hidden;
+            line-height: $fs-xl;
+
+            .part-wrapper {
+                overflow: hidden;
+                display: inline-block;
+                padding: 15px 3px 7px 3px;
+            }
 
             .part {
                 display: inline-block;

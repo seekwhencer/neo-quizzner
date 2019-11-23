@@ -4,6 +4,7 @@ import Module from './Module.js';
 import Intro from './lib/Intro/index.js';
 import Game from './lib/Game/index.js';
 import Data from './lib/Data/index.js';
+import Sound from './lib/Sound.js';
 
 import anime from 'animejs';
 
@@ -43,17 +44,24 @@ export default class extends Module {
             });
 
             //
-            new Intro(this).then(intro => {
-                this.intro = intro;
-                return new Data(this);
-            }).then(data => {
-                this.data = data;
-                return new Game(this);
-            }).then(game => {
-                this.game = game;
-                setTimeout(() => this.removeIntro(), 2000);
-                this.emit('ready');
-            })
+            new Intro(this)
+                .then(intro => {
+                    this.intro = intro;
+                    return new Data(this);
+                })
+                .then(data => {
+                    this.data = data;
+                    return new Sound(this);
+                })
+                .then(sound => {
+                    this.sound = sound;
+                    return new Game(this);
+                })
+                .then(game => {
+                    this.game = game;
+                    setTimeout(() => this.removeIntro(), 2000); // @TODO
+                    this.emit('ready');
+                })
 
         });
     }

@@ -137,4 +137,8 @@ export default class extends Module {
             return {name: i.name, score: i.score, rank: i.rank}
         }));
     }
+
+    allLocked() {
+        return this.items.filter(i => i.locked).length === this.items.length;
+    }
 }

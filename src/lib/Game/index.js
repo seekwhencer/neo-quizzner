@@ -24,6 +24,7 @@ export default class extends Module {
                     })
                     .then(() => {
                         console.log('>>>', this.label, 'GAME OVER');
+                        this.emit('game-over');
                     });
             });
 
@@ -31,6 +32,7 @@ export default class extends Module {
 
             this.on('new', () => {
                 console.log('>>> JUST RELOAD THE PAGE ;)');
+                window.location.reload();
             });
 
             this.emit('ready');
@@ -85,9 +87,6 @@ export default class extends Module {
 
         return this
             .ask(index)
-            .then(() => {
-                return this.text(`Nice.`);
-            })
             .then(() => { // repeat it here
                 return this.oneRound(index + 1);
             });
@@ -118,6 +117,19 @@ export default class extends Module {
 
                     this.wrongListener = number => {
                         console.log('>>> WRONG NUMBER', number, this.event);
+
+                        if (this.players.allLocked()) {
+                            this
+                                .away()
+                                .then(() => {
+                                    return this.text(_('game.all_locked'));
+                                })
+                                .then(() => {
+                                    resolve();
+                                });
+                        } else {
+                            //this.text(_('game.wrong_answer'));
+                        }
                     };
                     this.on('wrong', this.wrongListener);
 
@@ -127,9 +139,14 @@ export default class extends Module {
 
                     this.correctListener = number => {
                         console.log('>>> CORRECT NUMBER', number, this.event);
-                        this.away().then(() => {
-                            resolve();
-                        });
+                        this
+                            .away()
+                            .then(() => {
+                                return this.text(_('game.correct_answer'));
+                            })
+                            .then(() => {
+                                resolve();
+                            });
                     };
                     this.on('correct', this.correctListener);
                 });

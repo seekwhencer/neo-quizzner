@@ -2,6 +2,7 @@ import Module from '../../Module.js';
 import Setup from './Setup.js';
 import Players from './Players.js';
 import Rounds from './Rounds.js';
+import Highscore from './Highscore.js';
 
 export default class extends Module {
     constructor(args) {
@@ -27,6 +28,11 @@ export default class extends Module {
             });
 
             this.on('hit', player => this.hit(player));
+
+            this.on('new', () => {
+                console.log('>>> JUST RELOAD THE PAGE ;)');
+            });
+
             this.emit('ready');
         });
     }
@@ -171,24 +177,62 @@ export default class extends Module {
                     return this.text(`${_('game.highscore')}`);
                 })
                 .then(() => {
-                    return this.highscore();
+                    return new Highscore(this);
                 })
-                .then(() => {
+                .then(highscore => {
+                    this.highscore = highscore;
                     resolve();
                 });
         });
     }
 
     highscore() {
-        /*const className = 'answer';
+        const scoredPlayers = ksortObjArray(this.players.items, 'rank');
+        console.log('>>>>>>>> SCORED PLAYER', scoredPlayers);
         const target = toDOM('<div class="highscore"></div>');
-        this.question.answer.map((i, index) => {
-            const question = createScrambleWords(i.text, className);
-            question.setAttribute('data-index', index + 1);
-            target.append(question);
+        const className = 'rank';
+        scoredPlayers.map((player, index) => {
+            const rank = createScrambleWords(player.name, className);
+            const rankNumber = toDOM(`<div class="rank-number">${player.rank}</div>`);
+            const rankScore = toDOM(`<div class="rank-score">${player.score}</div>`);
+            rank.querySelector('.parts').prepend(rankNumber);
+            rank.querySelector('.parts').append(rankScore);
+            rank.setAttribute('data-index', index + 1);
+            target.append(rank);
         });
-        document.querySelector('body').append(target);*/
-        return Promise.resolve();
+        document.querySelector('body').append(target);
+
+        const animationA = this.app.anime
+            .timeline({
+                loop: false
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''} .rank-number`,
+                filter: ['blur(12px)', 'blur(0)'],
+                opacity: [0, 1],
+                translateZ: [300, 0],
+                duration: 250,
+                delay: (el, i) => 100 * i
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''} .rank-score`,
+                filter: ['blur(12px)', 'blur(0)'],
+                opacity: [0, 1],
+                translateZ: [300, 0],
+                duration: 250,
+                delay: (el, i) => 100 * i
+            })
+            .add({
+                targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,
+                translateY: ["1.4em", 0],
+                translateZ: 0,
+                duration: 750,
+                delay: (el, i) => 250 * i
+            });
+
+        return Promise.all([
+            animationA.finished
+        ]);
     }
 
     hit(player) {

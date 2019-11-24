@@ -126,6 +126,7 @@ export default class extends Module {
             this.scoreCountUp = new CountUp(this.scoreElement, this.score, {
                 separator: '.'
             });
+            this.players.rank();
             this.scoreCountUp.start();
         }
     }

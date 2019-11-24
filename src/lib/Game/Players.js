@@ -123,4 +123,18 @@ export default class extends Module {
     fail() {
         this.fails = this.fails + 1;
     }
+
+    rank() {
+        const scoredPlayers = ksortObjArray(this.items, 'score').reverse();
+        let latestScore = false;
+        let rank = 0;
+        scoredPlayers.map((player, index) => {
+            player.score !== latestScore ? rank = rank + 1 : null;
+            player.rank = rank;
+            latestScore = player.score;
+        });
+        console.log(this.items.map(i => {
+            return {name: i.name, score: i.score, rank: i.rank}
+        }));
+    }
 }

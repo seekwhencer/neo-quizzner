@@ -48,7 +48,7 @@ window.createScramble = text => {
  */
 window.createScrambleWords = (text, className) => {
     const words = text.split(/ /g);
-    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words${className ? ' '+className : ''}"><span class="text-wrapper"><span class="parts"></span></span></div>`);
+    const element = toDOM(`<div data-scramble="title" class="scramble scramble-words${className ? ' ' + className : ''}"><span class="text-wrapper"><span class="parts"></span></span></div>`);
     words.map(i => {
         element.querySelector('.parts').append(toDOM(`<span class="part-wrapper"><span class="part">${i}</span></span>`));
     });
@@ -73,8 +73,21 @@ window.createScrambleWordsQuestion = text => {
 };
 
 
-window.randomInt = (min,max) => {
+window.randomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
+};
+
+window.ksortObjArray = (array, key) => {
+    const compare = (a, b) => {
+        let comparison = 0;
+        if (a[key] > b[key]) {
+            comparison = 1;
+        } else if (a[key] < b[key]) {
+            comparison = -1;
+        }
+        return comparison;
+    };
+    return array.sort(compare);
 };

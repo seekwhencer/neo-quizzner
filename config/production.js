@@ -1,11 +1,15 @@
 const
     fs = require('fs-extra'),
     ConfigClass = require('./config.js'),
-    spawn = require('child_process').spawn;
+    spawn = require('child_process').spawn,
+    Crypto = require('crypto');
 
 module.exports = class extends ConfigClass {
     constructor() {
         super();
+
+        this.salt = 'erdbeerkuchen';
+        this.hash = Crypto.createHash('md5').update(this.salt).digest("hex");
 
         this.config = {
             mode: 'production',
@@ -73,8 +77,9 @@ module.exports = class extends ConfigClass {
                             fs.copySync(`${this.appPath}/public/`, `${this.appPath}/dist/prod`);
                             fs.copySync(`${this.appPath}/dist/prod`, `${this.appPath}/docs`);
 
-                            pathReplace('/css', '/neo-quizzner/css', `${this.appPath}/docs/css/app.css`);
-                            pathReplace('/images', '/neo-quizzner/images', `${this.appPath}/docs/css/app.css`);
+                            sedReplace('/css', '/neo-quizzner/css', `${this.appPath}/docs/css/app.css`);
+                            sedReplace('/images', '/neo-quizzner/images', `${this.appPath}/docs/css/app.css`);
+                            sedReplace('?hash', `?${this.hash}`, `${this.appPath}/docs/index.html`);
                         });
                     }
                 }
@@ -84,7 +89,7 @@ module.exports = class extends ConfigClass {
     };
 };
 
-const pathReplace = (replaceFrom, replaceTo, replaceFile) => {
+const sedReplace = (replaceFrom, replaceTo, replaceFile) => {
     const replaceCommand = `s#${replaceFrom}#${replaceTo}#g`;
     const spawnOptions = [
         '-i',
@@ -92,7 +97,7 @@ const pathReplace = (replaceFrom, replaceTo, replaceFile) => {
         replaceFile
     ];
     setTimeout(() => {
-        const proc = spawn('sed', spawnOptions); // pffft
+        const proc = spawn('sed', spawnOptions);
         proc.on('error', (err) => {
             console.error('>>> ERROR', err);
         });

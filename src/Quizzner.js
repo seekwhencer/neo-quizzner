@@ -15,12 +15,14 @@ export default class extends Module {
         return new Promise((resolve, reject) => {
             this.label = 'QUIZZNER';
             this.options = args;
+            this.options.debug = this.options.debug || false;
             this.options.language = this.options.language || 'de';
             this.options.setup = this.options.setup || {
                 players: ['Matze', 'Horst', 'Marie', 'Holger'],
                 categories: ['Natur'],
                 rounds: 12
             };
+            window.quizznerOptions = this.options;  // to access it for logging
 
             this.on('ready', () => {
                 resolve(this);
@@ -49,24 +51,24 @@ export default class extends Module {
             });
 
             //
-            new Intro(this)
+            new Sound()
+                .then(sound => {
+                    this.sound = sound;
+                    return new Intro(this);
+                })
                 .then(intro => {
                     this.intro = intro;
                     return new Data(this);
                 })
                 .then(data => {
                     this.data = data;
-                    return new Sound(this);
-                })
-                .then(sound => {
-                    this.sound = sound;
                     return new Game(this);
                 })
                 .then(game => {
                     this.game = game;
                     setTimeout(() => this.removeIntro(), 2000); // @TODO
                     this.emit('ready');
-                })
+                });
 
         });
     }

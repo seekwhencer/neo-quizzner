@@ -80,6 +80,7 @@ module.exports = class extends ConfigClass {
                             sedReplace('/css', '/neo-quizzner/css', `${this.appPath}/docs/css/app.css`);
                             sedReplace('/images', '/neo-quizzner/images', `${this.appPath}/docs/css/app.css`);
                             sedReplace('?hash', `?${this.hash}`, `${this.appPath}/docs/index.html`);
+                            sedReplace('debug: true', 'debug: false', `${this.appPath}/docs/index.html`);
                         });
                     }
                 }

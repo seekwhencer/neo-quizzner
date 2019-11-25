@@ -40,6 +40,7 @@ export default class extends Module {
                 target.classList.remove('loading');
                 target.classList.add('loaded');
                 target.innerHTML += `(${category.questions.length})`;
+                this.app.sound.play('plip');
             }));
 
             this.target = toDOM(IntroTemplate({

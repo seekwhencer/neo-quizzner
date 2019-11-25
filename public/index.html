@@ -20,9 +20,9 @@
     const options = {
         categoriesUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=2114668796&single=true&output=csv',
         translationsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxG_qxPt8OymBZGIYMenCPYDr13c9whkKNU_LJplob0Mm8V7gqMxTtlR9TXKzB6TGn8oDKvd7dQB_m/pub?gid=192674322&single=true&output=csv',
-        rounds: [12, 24, 36, 48],
+        rounds: [6, 12, 18, 24],
         skipSetup: false,
-        setup: {
+        setup: { //
             players: ['Matze', 'Horst', 'Marie', 'Holger'],
             categories: ['Natur'],
             rounds: 3
@@ -31,7 +31,8 @@
             correct: 1000,
             correctMinusPerFail: 200,
             wrong: 500
-        }
+        },
+        debug: true
     };
 
     new QUIZZNER(options).then(quizzner => {

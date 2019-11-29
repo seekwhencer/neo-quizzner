@@ -148,6 +148,10 @@ to configure the `index tab url` for the categories index, give the url as optio
   </script>
   ```
 
+## Progress
+I have made this repo to a certain point. Since then i moved to [https://github.com/Neofonie/neo-quizzner](https://github.com/Neofonie/neo-quizzner)  
+Now i'm working on the neofonie repo. While a development period it could be, that this repo is behind the neofonie repo.  
+I try to catchup these changes into this repo after a development period.
 
 ## License
 

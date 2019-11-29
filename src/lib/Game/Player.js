@@ -7,6 +7,7 @@ export default class extends Module {
         super();
         this.label = 'PLAYER';
         this.players = args.players;
+        this.sound = this.players.app.sound;
         this.name = args.name;
         this.index = args.index;
         this.app = this.players.app;
@@ -49,6 +50,8 @@ export default class extends Module {
         this.active = true;
         this.players.lock();
         this.players.game.emit('buzzer', this);
+        this.sound.emit('player-buzzed');
+        this.sound.emit('play-music-question');
     }
 
     blur() {
@@ -74,9 +77,11 @@ export default class extends Module {
 
         if (this.players.game.question.answer[this.number - 1].correct === true) {
             this.score = this.score + (this.scoring.correct - (this.players.fails * this.scoring.correctMinusPerFail));
+            this.sound.emit('player-chose-correct');
             setTimeout(() => this.players.game.emit('correct', number), this.event_delay);
         } else {
             answer.classList.add('wrong');
+            this.sound.emit('player-chose-wrong');
             this.lock();
             this.score = this.score - this.players.fails * this.scoring.wrong;
             setTimeout(() => {
@@ -84,6 +89,7 @@ export default class extends Module {
                 this.players.game.emit('wrong', number);
             }, 2000);
         }
+        this.sound.emit('stop-music-question');
         console.log('>>>', this.label, this.name, 'ANSWERS:', number, this.players.game.question);
     }
 
@@ -120,16 +126,15 @@ export default class extends Module {
     }
 
     set score(val) {
+        const lastScore = this.score;
         this._score = val;
-        //this.scoreElement ? this.scoreElement.innerHTML = this.score : null;
         if (this.scoreElement) {
             this.scoreCountUp = new CountUp(this.scoreElement, this.score, {
-                separator: '.'
+                separator: '.',
+                startVal: lastScore
             });
             this.players.rank();
             this.scoreCountUp.start();
         }
     }
-
-
 }

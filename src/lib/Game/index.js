@@ -10,6 +10,7 @@ export default class extends Module {
         return new Promise((resolve, reject) => {
             this.label = 'GAME';
             this.app = args;
+            this.sound = this.app.sound;
 
             console.log(this.label, '>>> INIT');
 
@@ -23,7 +24,7 @@ export default class extends Module {
                         return this.run();
                     })
                     .then(() => {
-                        console.log('>>>', this.label, 'GAME OVER');
+                        console.log(this.label, '>>>', 'GAME OVER');
                         this.emit('game-over');
                     });
             });
@@ -31,7 +32,7 @@ export default class extends Module {
             this.on('hit', player => this.hit(player));
 
             this.on('new', () => {
-                console.log('>>> JUST RELOAD THE PAGE ;)');
+                console.log(this.label, '>>> JUST RELOAD THE PAGE ;)');
                 window.location.reload();
             });
 
@@ -50,7 +51,8 @@ export default class extends Module {
             })
             .then(setup => {
                 this.setup = setup;
-                console.log('>>>', this.label, 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
+                console.log(this.label, '>>>', 'SETUP COMPLETE:', this.setup.players, this.setup.categories, this.setup.rounds);
+                this.sound.emit('get-ready');
                 return this.text(_('game.letsgo'));
             })
             .then(() => {
@@ -89,19 +91,23 @@ export default class extends Module {
             .ask(index)
             .then(() => { // repeat it here
                 return this.oneRound(index + 1);
+            })
+            .catch(() => {
+                return this.finish();
             });
     }
 
     ask(index) {
-        return new Promise(resolve => {
-            console.log('>>>>>> ASKING', index + 1, `(${index})`, 'OF', this.setup.rounds);
+        return new Promise((resolve, reject) => {
+            console.log(this.label, '>>> >>> ASKING', index + 1, `(${index})`, 'OF', this.setup.rounds);
             this.players.lock(true);
-            this.getRandomCategory();
-            this.getRandomQuestion();
             this.players.unlockPlayers();
 
             this
-                .text(`${_('game.round')} ${index + 1}`)
+                .getQuestion()
+                .then(() => {
+                    return this.text(`${_('game.round')} ${index + 1}`);
+                })
                 .then(() => {
                     return this.textQuestion(); // the question !!!!!!!!!1111
                 })
@@ -116,12 +122,13 @@ export default class extends Module {
                         this.event.removeListener('wrong', this.wrongListener);
 
                     this.wrongListener = number => {
-                        console.log('>>> WRONG NUMBER', number, this.event);
+                        console.log(this.label, '>>> WRONG NUMBER', number, this.event);
 
                         if (this.players.allLocked()) {
                             this
                                 .away()
                                 .then(() => {
+                                    this.sound.emit('all-players-wrong');
                                     return this.text(_('game.all_locked'));
                                 })
                                 .then(() => {
@@ -138,7 +145,7 @@ export default class extends Module {
                         this.event.removeListener('correct', this.correctListener);
 
                     this.correctListener = number => {
-                        console.log('>>> CORRECT NUMBER', number, this.event);
+                        console.log(this.label, '>>> CORRECT NUMBER', number, this.event);
                         this
                             .away()
                             .then(() => {
@@ -149,8 +156,12 @@ export default class extends Module {
                             });
                     };
                     this.on('correct', this.correctListener);
+                })
+                .catch(() => {
+                    reject();
                 });
         });
+
     }
 
     away() {
@@ -182,7 +193,7 @@ export default class extends Module {
 
     finish() {
         return new Promise(resolve => {
-            console.log('>>>>>> FINISHED', this.setup.rounds);
+            console.log(this.label, '>>>>>> FINISHED', this.setup.rounds);
             // @TODO make another, fancier end animation
             this.rounds.away();
             this
@@ -205,7 +216,7 @@ export default class extends Module {
 
     highscore() {
         const scoredPlayers = ksortObjArray(this.players.items, 'rank');
-        console.log('>>>>>>>> SCORED PLAYER', scoredPlayers);
+        console.log(this.label, '>>>>>>>> SCORED PLAYER', scoredPlayers);
         const target = toDOM('<div class="highscore"></div>');
         const className = 'rank';
         scoredPlayers.map((player, index) => {
@@ -253,14 +264,14 @@ export default class extends Module {
     }
 
     hit(player) {
-        console.log('>>> !!! <<<', player.name);
+        console.log(this.label, '>>> !!! <<<', player.name);
     }
 
     text(text, stay, className) {
         const target = createScrambleWords(text);
         document.querySelector('body').append(target);
 
-        const readDelay = text.length * 150;
+        const readDelay = 0; //text.length * 150;
         const animation = this.app.anime
             .timeline({
                 loop: false
@@ -271,9 +282,6 @@ export default class extends Module {
                 translateZ: 0,
                 duration: 750,
                 delay: (el, i) => 250 * i
-            })
-            .add({
-                delay: readDelay
             });
 
         if (!stay) {
@@ -282,7 +290,7 @@ export default class extends Module {
                 opacity: 0,
                 filter: 'blur(10px)',
                 translateZ: 0,
-                duration: 500,
+                duration: 250,
                 delay: (el, i) => 50 * i,
                 changeComplete: () => {
                     target.remove();
@@ -306,12 +314,19 @@ export default class extends Module {
                 targets: `[data-scramble="title"]${className ? '.' + className : ''} .part`,
                 translateY: ["1.4em", 0],
                 translateZ: 0,
-                duration: 750,
-                delay: (el, i) => 250 * i
+                duration: 500,
+                delay: (el, i) => {
+                    const delay = 150 * i;
+                    setTimeout(() => {
+                        this.sound.emit('question-word-in');
+                    }, delay);
+
+                    return delay;
+                }
             })
             .add({
                 targets: `[data-scramble]${className ? '.' + className : ''}`,
-                translateY: [0, -170],
+                translateY: [0, '-3.5em'],
                 duration: 500,
                 delay: (el, i) => 50 * i
             });
@@ -344,7 +359,14 @@ export default class extends Module {
                 translateY: ["1.4em", 0],
                 translateZ: 0,
                 duration: 750,
-                delay: (el, i) => 250 * i
+                delay: (el, i) => {
+                    const delay = 250 * i;
+                    setTimeout(() => {
+                        this.sound.emit('answer-word-in');
+                    }, delay + 400);
+
+                    return delay;
+                }
             });
 
         return Promise.all([
@@ -352,17 +374,42 @@ export default class extends Module {
         ]);
     }
 
+    getQuestion(){
+        return new Promise((resolve, reject) => {
+            this.getRandomQuestion() ? resolve() : reject();
+        });
+    }
+
     getRandomCategory() {
         const rand = randomInt(0, this.setup.categories.length - 1);
         const categoryName = this.setup.categories.filter((i, index) => index === rand)[0];
         this.category = this.app.data.categories.items.filter(i => i.name === categoryName)[0];
-        console.log('>>> GET RANDOM CATEGORY', rand, this.setup.categories.length, this.category);
+        console.log(this.label, '>>> GOT RANDOM CATEGORY:', this.category.name, 'BY INDEX:', rand, 'FROM SELECTED CATEGORIES COUNT:', this.setup.categories.length);
     }
 
-    getRandomQuestion() {
+    getRandomQuestion(){
+        this.getRandomCategory();
         const rand = randomInt(0, this.category.questions.length - 1);
+        let questionsCount = 0;
+        this.app.data.categories.items.filter(i => this.setup.categories.includes(i.name)).map(c => c.questions.map(() => questionsCount++));
         this.question = this.category.questions.filter((i, index) => index === rand)[0];
-        console.log('>>> GET RANDOM QUESTION', rand, this.category.questions.length, this.question);
+
+        console.log(this.label, '>>> GOT RANDOM QUESTION BY INDEX:', rand, 'QUESTIONS FOR CATEGORY:', this.category.questions.length, this.question, 'ALL OVER QUESTIONS COUNT:', questionsCount, 'ROUND:', this.round);
+
+        if (!this.question.burned) {
+            this.question.burned = true;
+            return true;
+        } else {
+            console.log(this.label, '>>>> NOT BURNED ROUND:',this.round, 'QUESTIONS ALL OVER COUNT', questionsCount);
+
+            if (this.round < questionsCount) {
+                console.log(this.label, '>>>> GETTING A NEW TRY.');
+                return this.getRandomQuestion();
+            } else {
+                console.log(this.label, '>>> END OF POSSIBLE QUESTIONS REACHED !!!');
+                return false;
+            }
+        }
     }
 
     get round() {

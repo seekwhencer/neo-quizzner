@@ -9,6 +9,7 @@ export default class extends Module {
             this.label = 'PLAYERS';
             this.game = args;
             this.app = this.game.app;
+            this.sound = this.app.sound;
             this.locked = false;
             this.locked_ms = 3000;
             this.fails = 0;
@@ -59,7 +60,7 @@ export default class extends Module {
             })
             .add({
                 targets: '.game-players .game-player',
-                translateY: [0, 200],
+                translateY: [0, 250],
                 duration: 500,
                 delay: (el, i) => 200 * i,
                 easing: 'easeInOutExpo',
@@ -85,7 +86,7 @@ export default class extends Module {
 
     number(e) {
         if (Number.isInteger(e.key * 1)) {
-            console.log('>> NUMBER', e.key);
+            console.log(this.label, '>> NUMBER', e.key);
             this.player = this.items.filter(i => i.active)[0];
             if (!this.player)
                 return;
@@ -113,6 +114,7 @@ export default class extends Module {
         this.locked = false;
         this.items.map(player => player.blur());
         this.game.rounds.buzzOff();
+        this.sound.emit('stop-music-question');
     }
 
     unlockPlayers() {
@@ -133,7 +135,7 @@ export default class extends Module {
             player.rank = rank;
             latestScore = player.score;
         });
-        console.log(this.items.map(i => {
+        console.log(this.label, 'RANK', this.items.map(i => {
             return {name: i.name, score: i.score, rank: i.rank}
         }));
     }

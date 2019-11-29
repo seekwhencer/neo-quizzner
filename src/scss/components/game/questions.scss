@@ -1,8 +1,10 @@
 .scramble {
     &.question {
+        font-size: $fs-xxl;
+
         .text-wrapper {
             width: 60%;
-            line-height: $fs-xxl;
+            line-height: $fs-xxs;
         }
 
         .part-wrapper {
@@ -33,7 +35,7 @@
 
     .scramble {
         position: relative;
-        font-size: $fs-xxl;
+        font-size: $fs-xl;
         margin: auto;
         text-align: left;
         overflow: hidden;
@@ -48,16 +50,16 @@
         &:before {
             position: absolute;
             overflow: hidden;
-            left: 10px;
-            top: 20px;
+            left: $fs-xxs;
+            top: $fs-xxs;
             content: attr(data-index);
             font-weight: 200;
             width: 40px;
-            line-height: 45px;
             text-align: center;
             border: 1px solid $color-highlight-higher;
             border-radius: 5px;
-            font-size: $fs-xl;
+            font-size: $fs-xs;
+            line-height: $fs-xl;
             transition: all 0.2s ease-in-out;
         }
 
@@ -68,7 +70,7 @@
             padding-right: 0.05em;
             padding-bottom: 0.1em;
             overflow: hidden;
-            line-height: $fs-xl;
+            line-height: 1em;
 
             .part-wrapper {
                 overflow: hidden;
